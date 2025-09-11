@@ -107,6 +107,25 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 ---
 
+### [lua/plugins/ui/snacks.lua](lua/plugins/ui/snacks.lua)
+
+#### Navegación
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd>[a</kbd>                         | jump to top edge of scope                           | [N]             | Snacks keys                         |
+| <kbd>]a</kbd>                         | jump to bottom edge of scope                        | [N]             | Snacks keys                         |
+
+#### Ventanas/Buffers/Tabs
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><cr></kbd>                       | Execute buffer                                      | [N] [V]         | Snacks keys                         |
+| <kbd><leader>cr</kbd>                 | Source buffer                                       | [N] [V]         | Snacks keys                         |
+
+
+---
+
 ## Conflictos y solapamientos
 
 - Tecla <kbd>n</kbd>:
