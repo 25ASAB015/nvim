@@ -422,6 +422,128 @@ class KeybindingExtractor:
                 )
                 keybindings.append(keybinding)
         
+        # Extensión: entradas estilo Snacks (tablas keys y mapeos con índice entre corchetes)
+        try:
+            snacks_kbs = self.extract_snacks_style_keybindings(file_path, content)
+            keybindings.extend(snacks_kbs)
+        except Exception as e:
+            print(f"Aviso: no se pudieron extraer Snacks keys en {file_path}: {e}")
+
+        return keybindings
+
+    # =====================
+    #  Snacks keys parsing
+    # =====================
+    def _find_matching_brace(self, text: str, start_index: int) -> int:
+        """Devuelve el índice de la '}' que cierra el bloque iniciado en start_index (que debe estar en '{').
+        Ignora llaves dentro de cadenas simples o dobles. Retorna -1 si no encuentra cierre.
+        """
+        depth = 0
+        in_string: Optional[str] = None
+        i = start_index
+        while i < len(text):
+            ch = text[i]
+            if in_string:
+                if ch == in_string:
+                    # comprobar escape simple \
+                    if i > 0 and text[i - 1] == '\\':
+                        i += 1
+                        continue
+                    in_string = None
+                i += 1
+                continue
+            if ch in ('"', "'"):
+                in_string = ch
+                i += 1
+                continue
+            if ch == '{':
+                depth += 1
+            elif ch == '}':
+                depth -= 1
+                if depth == 0:
+                    return i
+            i += 1
+        return -1
+
+    def _parse_modes_from_inner(self, inner: str) -> List[str]:
+        """Extrae modos desde una tabla interna `mode = ...` dentro de una entrada de keys."""
+        # Tabla de modos: mode = { 'n', 'x' }
+        m_tbl = re.search(r"mode\s*=\s*\{([^}]*)\}", inner, re.MULTILINE | re.DOTALL)
+        if m_tbl:
+            inner_modes = m_tbl.group(1)
+            return self.normalize_modes(inner_modes)
+        # Modo simple: mode = 'n'
+        m_str = re.search(r"mode\s*=\s*(['\"][^'\"]+['\"])", inner)
+        if m_str:
+            return self.normalize_modes(m_str.group(1))
+        return ["Normal"]
+
+    def _parse_desc_from_inner(self, inner: str) -> str:
+        m_desc = re.search(r"desc\s*=\s*['\"]([^'\"]+)['\"]", inner)
+        if m_desc:
+            return m_desc.group(1).strip()
+        return ""
+
+    def extract_snacks_style_keybindings(self, file_path: str, content: str) -> List[Keybinding]:
+        """Extrae keybindings de bloques estilo Snacks:
+        - keys = { ['nombre'] = { '<tecla>', ..., desc = '...', mode = 'n'|{'n','x'} } }
+        - Bloques indexados por clave entre corchetes con descripción (p.ej., scope.jump['[a'] = { desc = '...' })
+        """
+        keybindings: List[Keybinding] = []
+
+        # Buscar cualquier entrada del tipo ['algo'] = { ... }
+        entry_start_re = re.compile(r"\[\s*(['\"][^'\"]+['\"])\s*\]\s*=\s*\{", re.MULTILINE)
+        for m in entry_start_re.finditer(content):
+            table_key_raw = m.group(1).strip("'\"")
+            inner_start = m.end()  # posición justo después de '{'
+            inner_end = self._find_matching_brace(content, inner_start - 1)
+            if inner_end == -1:
+                continue
+            inner = content[inner_start:inner_end]
+
+            # Determinar la tecla efectiva
+            # Buscar cadenas candidatas dentro de la tabla y elegir la que parezca una tecla
+            str_literals = re.findall(r"['\"]([^'\"]+)['\"]", inner)
+            key_combo = None
+            for lit in str_literals:
+                lit_strip = lit.strip()
+                if (
+                    lit_strip.startswith('<') or
+                    '<leader>' in lit_strip.lower() or '<localleader>' in lit_strip.lower() or
+                    re.fullmatch(r"[A-Za-z0-9]{1,3}", lit_strip) is not None
+                ):
+                    key_combo = lit_strip
+                    break
+            if not key_combo:
+                # Usar la clave del índice como fallback (p.ej. '[a', ']a')
+                key_combo = table_key_raw
+
+            modes = self._parse_modes_from_inner(inner)
+            description = self._parse_desc_from_inner(inner)
+
+            # Número de línea aproximado
+            line_number = content[:m.start()].count('\n') + 1
+
+            # Si no hay descripción, intentar comentario cercano
+            if not description:
+                description = self.extract_description_from_comment(content, max(0, line_number - 1))
+
+            # Filtro básico de plausibilidad para evitar falsos positivos
+            plausible_key = key_combo.startswith('<') or len(key_combo) <= 5
+            if not description and not plausible_key:
+                continue
+
+            kb = Keybinding(
+                file_path=file_path,
+                modes=modes,
+                key=key_combo,
+                action=description or "Acción de plugin",
+                description=description,
+                context="Snacks keys",
+                line_number=line_number,
+            )
+            keybindings.append(kb)
+
         return keybindings
 
     def extract_all_keybindings(self) -> List[Keybinding]:
