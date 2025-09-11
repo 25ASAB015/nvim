@@ -34,8 +34,13 @@ class Keybinding:
 class KeybindingExtractor:
     """Extractor de keybindings desde archivos Lua."""
     
-    def __init__(self, repo_root: str = "."):
-        self.repo_root = repo_root
+    def __init__(self, repo_root: Optional[str] = None):
+        # Si no se especifica, usar la raíz del repo relativa a este archivo (../)
+        if repo_root is None:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            self.repo_root = os.path.abspath(os.path.join(script_dir, ".."))
+        else:
+            self.repo_root = repo_root
         self.keybindings: List[Keybinding] = []
         
         # Patrones regex para detectar keybindings (más flexibles)
@@ -64,6 +69,11 @@ class KeybindingExtractor:
                 r"\[(['\"][^'\"]+['\"])\]\s*=\s*function\s*\([^)]*\).*?end",
                 re.MULTILINE | re.DOTALL
             ),
+            # field assignments that define a key, e.g., toggle_style_key = '<leader>ot'
+            'assignment_key': re.compile(
+                r"(?<![\w])([A-Za-z_][A-Za-z0-9_]*_key|key)\s*=\s*(['\"][^'\"]+['\"])",
+                re.MULTILINE
+            ),
         }
         
         # Mapeo de modos abreviados a nombres completos
@@ -71,7 +81,8 @@ class KeybindingExtractor:
             'n': 'Normal',
             'i': 'Insert', 
             'v': 'Visual',
-            'x': 'Block',  # Visual block mode is just "Block" not "Visual, Block"
+            'x': 'Visual',
+            's': 'Select',
             't': 'Terminal',
             'c': 'Command',
             'o': 'Operator'
@@ -196,9 +207,26 @@ class KeybindingExtractor:
         lines = content.split('\n')
         
         # Extraer usando cada patrón
+        def is_match_in_commented_line(text: str, start_index: int) -> bool:
+            """Devuelve True si la coincidencia está en una línea comentada con -- antes del patrón."""
+            line_start = text.rfind('\n', 0, start_index) + 1
+            line_end = text.find('\n', start_index)
+            if line_end == -1:
+                line_end = len(text)
+            line = text[line_start:line_end]
+            comment_pos = line.find('--')
+            if comment_pos == -1:
+                return False
+            # Si el comentario aparece antes del inicio relativo del patrón en la línea
+            rel_index = start_index - line_start
+            return comment_pos != -1 and comment_pos <= rel_index
+
         for pattern_name, pattern in self.patterns.items():
             for match in pattern.finditer(content):
                 line_num = content[:match.start()].count('\n')
+                # Ignorar si está comentado en la misma línea
+                if is_match_in_commented_line(content, match.start()):
+                    continue
                 
                 if pattern_name in ['map_function', 'keymap_set']:
                     modes_str, key, action, options = match.groups()
@@ -241,6 +269,32 @@ class KeybindingExtractor:
                         description = "Abre lazygit para ver el log del plugin"
                     elif 'terminal' in context.lower():
                         description = "Abre una terminal en el directorio del plugin"
+                elif pattern_name == 'assignment_key':
+                    # Campo *_key = "<...>"
+                    _field, key = match.groups()
+                    key = key.strip('\'"')
+                    action = "Atajo de configuración del plugin"
+                    modes = ["Normal"]
+                    # Descripción por comentario cercano
+                    description = self.extract_description_from_comment(content, line_num)
+                elif pattern_name == 'lazy_keys_entry':
+                    # Entrada tipo { "<leader>x", ..., desc = "...", mode = "n" | {"n","v"} }
+                    key, desc, mode_val = match.groups()
+                    key = key.strip()
+                    # Determinar modos
+                    modes: List[str] = []
+                    if mode_val:
+                        mode_val = mode_val.strip()
+                        if mode_val.startswith('{') and mode_val.endswith('}'):
+                            inner = mode_val[1:-1]
+                            modes = self.normalize_modes(inner)
+                        else:
+                            modes = self.normalize_modes(mode_val)
+                    else:
+                        modes = ["Normal"]
+                    # Acción/descripcion
+                    description = (desc or '').strip()
+                    action = description or "Acción de plugin"
                 else:
                     continue
                 
@@ -370,7 +424,7 @@ class KeybindingExtractor:
             if file_path in grouped:
                 file_keybindings = grouped[file_path]
                 if file_keybindings:
-                    doc += f"### {file_path}\n\n"
+                    doc += f"### [{file_path}]({file_path})\n\n"
                     
                     # Agregar notas especiales por archivo
                     if 'lazy.lua' in file_path:
@@ -390,7 +444,7 @@ class KeybindingExtractor:
         # Procesar archivos restantes
         for file_path, file_keybindings in grouped.items():
             if file_path not in processed_files and file_keybindings:
-                doc += f"### {file_path}\n\n"
+                doc += f"### [{file_path}]({file_path})\n\n"
                 doc += self.generate_markdown_table(file_keybindings)
                 doc += "\n---\n\n"
         
@@ -402,10 +456,23 @@ class KeybindingExtractor:
         doc += "- Todo está documentado en español.\n"
         
         # Contar keybindings sin descripción
-        no_desc_count = sum(1 for kb in keybindings if not kb.description or kb.description == kb.key)
+        missing_desc = [
+            kb for kb in keybindings if not kb.description or kb.description == kb.key
+        ]
+        no_desc_count = len(missing_desc)
         if no_desc_count > 0:
             doc += f"\n⚠️ **Advertencia:** Se encontraron {no_desc_count} keybindings sin descripción. "
             doc += "Considera agregar comentarios descriptivos en el código fuente.\n"
+            # Listado detallado para investigación
+            doc += "\n**Keybindings sin descripción:**\n"
+            # Ordenar por archivo y línea para facilitar navegación
+            missing_desc.sort(key=lambda kb: (os.path.relpath(kb.file_path, self.repo_root), kb.line_number))
+            for kb in missing_desc:
+                rel_path = os.path.relpath(kb.file_path, self.repo_root)
+                key_fmt = self.format_key_combination(kb.key)
+                modes_str = ", ".join(kb.modes) if kb.modes else "N/A"
+                # Enlace relativo a archivo con ancla de línea (GitHub/Git viewers)
+                doc += f"- [{rel_path}:L{kb.line_number}]({rel_path}#L{kb.line_number}) — Tecla: {key_fmt} — Modos: {modes_str}\n"
         
         return doc
 
