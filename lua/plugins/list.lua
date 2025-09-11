@@ -52,6 +52,21 @@ local plugins = {
         -- Iconos web para mejorar la visualización de archivos
         'nvim-tree/nvim-web-devicons'
     },
+
+    {
+        -- Snacks: Colección de utilities UI modernas
+        'folke/snacks.nvim',
+        priority = 1000,
+        lazy = false,
+        config = load_config('ui.snacks'),
+    },
+
+    {
+        -- Barra de estado personalizable y moderna
+        'nvim-lualine/lualine.nvim',
+        config = load_config('ui.lualine'),
+        event = { 'BufReadPost', 'BufNewFile' },
+    },
 }
 -- ──────────────────────────────────────────────────────────────────────────────
 -- 📤 EXPORTACIÓN DE CONFIGURACIÓN

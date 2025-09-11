@@ -9,8 +9,6 @@
 -- ║ portapapeles, codificación, autoguardado, y más, adaptando Neovim    ║
 -- ║ a un flujo de trabajo eficiente y actual.                            ║
 -- ║                                                                      ║
--- ║ Modifica este archivo para ajustar la experiencia de Neovim según    ║
--- ║ tus necesidades y preferencias personales.                           ║
 -- ╚══════════════════════════════════════════════════════════════════════╝
 
 local options = {
