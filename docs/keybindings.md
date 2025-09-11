@@ -58,6 +58,14 @@
 
 ---
 
+### lua/plugins/ui/onedark.lua
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Notas/Duplicados                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>ot</kbd>                 | Tecla para alternar entre los diferentes estilos del tema | Config          |                                     |
+
+---
+
 **Notas generales:**
 - Todos los keybindings agrupados por archivo para facilitar la edición.
 - Los duplicados se marcan y explican.

@@ -64,6 +64,11 @@ class KeybindingExtractor:
                 r"\[(['\"][^'\"]+['\"])\]\s*=\s*function\s*\([^)]*\).*?end",
                 re.MULTILINE | re.DOTALL
             ),
+            # variable_key = '<key>', toggle_style_key = '<leader>ot', etc.
+            'variable_key': re.compile(
+                r"(\w*_key)\s*=\s*['\"]([^'\"]+)['\"]",
+                re.MULTILINE
+            ),
         }
         
         # Mapeo de modos abreviados a nombres completos
@@ -241,6 +246,24 @@ class KeybindingExtractor:
                         description = "Abre lazygit para ver el log del plugin"
                     elif 'terminal' in context.lower():
                         description = "Abre una terminal en el directorio del plugin"
+                
+                elif pattern_name == 'variable_key':
+                    variable_name, key = match.groups()
+                    action = f"Configuración de tecla: {variable_name}"
+                    modes = ["Config"]
+                    description = ""
+                    
+                    # Extraer descripción del contexto y comentarios
+                    description = self.extract_description_from_comment(content, line_num)
+                    
+                    # Si no hay descripción, generar una descriptiva basada en el nombre de la variable
+                    if not description:
+                        if 'toggle' in variable_name:
+                            description = f"Tecla para alternar {variable_name.replace('_key', '').replace('toggle_', '')}"
+                        elif 'style' in variable_name:
+                            description = f"Tecla para cambiar {variable_name.replace('_key', '')}"
+                        else:
+                            description = f"Tecla configurada: {variable_name}"
                 else:
                     continue
                 
