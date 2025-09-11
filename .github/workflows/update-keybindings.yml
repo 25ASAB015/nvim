@@ -1,0 +1,71 @@
+name: Update Keybindings Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**/*.lua'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**/*.lua'
+
+jobs:
+  update-keybindings:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        
+    - name: Run keybindings extractor
+      run: |
+        python scripts/update_keybindings.py
+        
+    - name: Check for changes
+      id: verify-changed-files
+      run: |
+        if [ -n "$(git status --porcelain docs/keybindings.md)" ]; then
+          echo "changed=true" >> $GITHUB_OUTPUT
+        else
+          echo "changed=false" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Create Pull Request
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "docs: actualizar documentación de keybindings automáticamente"
+        title: "🤖 Actualización automática de documentación de keybindings"
+        body: |
+          ## 🤖 Actualización automática
+          
+          Este PR fue generado automáticamente para mantener actualizada la documentación de keybindings.
+          
+          ### Cambios realizados:
+          - Actualizados los keybindings en `docs/keybindings.md`
+          - Escaneados todos los archivos `.lua` en busca de nuevos/modificados keybindings
+          
+          ### Archivos escaneados:
+          - `lua/core/keys.lua`
+          - `lua/core/autocmd.lua` 
+          - `lua/plugins/lazy.lua`
+          - Otros archivos `.lua` en el repositorio
+          
+          Por favor revisa los cambios antes de hacer merge.
+        branch: automation/update-keybindings
+        base: main
+        delete-branch: true
