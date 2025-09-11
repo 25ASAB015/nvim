@@ -47,6 +47,11 @@ local plugins = {
         lazy = false,        -- Se carga inmediatamente
         priority = 1000,     -- Alta prioridad para evitar parpadeos
     },
+
+    {
+        -- Iconos web para mejorar la visualización de archivos
+        'nvim-tree/nvim-web-devicons'
+    },
 }
 -- ──────────────────────────────────────────────────────────────────────────────
 -- 📤 EXPORTACIÓN DE CONFIGURACIÓN
