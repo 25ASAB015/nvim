@@ -58,6 +58,16 @@
 
 ---
 
+### lua/plugins/ui/onedark.lua
+
+**Estos atajos están activos cuando el plugin OneDark está cargado.**
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Notas/Duplicados                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd>'</kbd>                          | Alternar entre estilos del tema OneDark             | Normal          |                                     |
+
+---
+
 **Notas generales:**
 - Todos los keybindings agrupados por archivo para facilitar la edición.
 - Los duplicados se marcan y explican.

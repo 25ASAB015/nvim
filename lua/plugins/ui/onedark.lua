@@ -12,7 +12,6 @@
 -- ║                                                                                    ║
 -- ╚════════════════════════════════════════════════════════════════════════════════════╝
 
-
 -- Carga el módulo principal del tema OneDark
 local onedark = require('onedark')
 
@@ -34,28 +33,28 @@ onedark.setup({
     cmp_itemkind_reverse = false,
 
     -- Tecla para alternar entre los diferentes estilos del tema
-    toggle_style_key = '<leader>ot',
+    toggle_style_key = "'",
 
     -- Lista de estilos disponibles para alternar dinámicamente
     toggle_style_list = { 'dark', 'darker', 'cool', 'warm', 'warmer', 'deep', 'light' },
 
     -- Estilos de resaltado para diferentes elementos del código
     code_style = {
-        comments = 'italic',    -- Comentarios en cursiva
-        keywords = 'none',      -- Palabras clave sin estilo especial
-        functions = 'none',     -- Funciones sin estilo especial
-        strings = 'none',       -- Cadenas de texto sin estilo especial
-        variables = 'none',     -- Variables sin estilo especial
+        comments = 'italic', -- Comentarios en cursiva
+        keywords = 'none', -- Palabras clave sin estilo especial
+        functions = 'none', -- Funciones sin estilo especial
+        strings = 'none', -- Cadenas de texto sin estilo especial
+        variables = 'none', -- Variables sin estilo especial
     },
 
     -- Configuración de transparencia para la barra de estado lualine
     lualine = { transparent = true },
 
     -- Opciones de resaltado para diagnósticos (LSP, errores, advertencias, etc.)
-    diagnostics = { 
-        darker = true,         -- Colores más oscuros para diagnósticos
-        undercurl = true,      -- Subrayado con curva para diagnósticos
-        background = false     -- Sin fondo especial para diagnósticos
+    diagnostics = {
+        darker = true, -- Colores más oscuros para diagnósticos
+        undercurl = true, -- Subrayado con curva para diagnósticos
+        background = false, -- Sin fondo especial para diagnósticos
     },
 })
 
