@@ -1,4 +1,4 @@
-### lua/core/keys.lua
+### [lua/core/keys.lua](lua/core/keys.lua)
 
 | Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Notas/Duplicados                   |
 | ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
@@ -13,25 +13,25 @@
 | <kbd>j</kbd>                          | Bajar línea real                                    | Normal          |                                     |
 | <kbd>k</kbd>                          | Subir línea real                                    | Normal          |                                     |
 | <kbd>n</kbd>                          | Siguiente resultado                                 | Normal          | Duplicado                           |
-| <kbd>n</kbd>                          | Siguiente resultado                                 | Block           | Duplicado: acción distinta          |
+| <kbd>n</kbd>                          | Siguiente resultado                                 | Visual          | Duplicado: acción distinta          |
 | <kbd>n</kbd>                          | Siguiente resultado                                 | Operator        | Duplicado: acción distinta          |
 | <kbd>N</kbd>                          | Anterior resultado                                  | Normal          | Duplicado                           |
-| <kbd>N</kbd>                          | Anterior resultado                                  | Block           | Duplicado: acción distinta          |
+| <kbd>N</kbd>                          | Anterior resultado                                  | Visual          | Duplicado: acción distinta          |
 | <kbd>N</kbd>                          | Anterior resultado                                  | Operator        | Duplicado: acción distinta          |
 | <kbd><</kbd>                          | Indentado persistente en modo visual                | Visual          |                                     |
 | <kbd>></kbd>                          | Indentado persistente en modo visual                | Visual          |                                     |
 | <kbd>,</kbd>                          | Punto de interrupción de undo tras ciertos caracteres en insert | Insert          |                                     |
 | <kbd>.</kbd>                          | Punto de interrupción de undo tras ciertos caracteres en insert | Insert          |                                     |
 | <kbd>;</kbd>                          | ;<C-g>u                                             | Insert          |                                     |
-| <kbd>p</kbd>                          | Pegar sobre texto visual seleccionado sin sobreescribir el registro ("paste sin perder el clipboard") | Visual, Block   |                                     |
-| <kbd>x</kbd>                          | Eliminar texto en visual sin copiar al registro principal | Visual, Block   |                                     |
-| <kbd>X</kbd>                          | Eliminar selección, sin copiar                      | Visual, Block   | Duplicado: acción distinta          |
-| <kbd>-</kbd>                          | Placeholder para decremento                         | Normal, Visual, Block |                                     |
-| <kbd>=</kbd>                          | Placeholder para incremento                         | Normal, Visual, Block |                                     |
-| <kbd>gl</kbd>                         | Fin de línea                                        | Normal, Visual, Block |                                     |
-| <kbd>gh</kbd>                         | Inicio de línea                                     | Normal, Visual, Block |                                     |
-| <kbd>J</kbd>                          | Mover bloques de texto seleccionados arriba y abajo en visual | Visual, Block   | Duplicado: acción distinta          |
-| <kbd>K</kbd>                          | Mover bloques de texto seleccionados arriba y abajo en visual | Visual, Block   |                                     |
+| <kbd>p</kbd>                          | Pegar sobre texto visual seleccionado sin sobreescribir el registro ("paste sin perder el clipboard") | Visual          |                                     |
+| <kbd>x</kbd>                          | Eliminar texto en visual sin copiar al registro principal | Visual          |                                     |
+| <kbd>X</kbd>                          | Eliminar selección, sin copiar                      | Visual          | Duplicado: acción distinta          |
+| <kbd>-</kbd>                          | Placeholder para decremento                         | Normal, Visual  |                                     |
+| <kbd>=</kbd>                          | Placeholder para incremento                         | Normal, Visual  |                                     |
+| <kbd>gl</kbd>                         | Fin de línea                                        | Normal, Visual  |                                     |
+| <kbd>gh</kbd>                         | Inicio de línea                                     | Normal, Visual  |                                     |
+| <kbd>J</kbd>                          | Mover bloques de texto seleccionados arriba y abajo en visual | Visual          | Duplicado: acción distinta          |
+| <kbd>K</kbd>                          | Mover bloques de texto seleccionados arriba y abajo en visual | Visual          |                                     |
 | <kbd>Escape</kbd>                     | Escape y limpia búsqueda                            | Insert, Normal  |                                     |
 
 #### Líder global/local: <kbd>Espacio</kbd>
@@ -39,7 +39,7 @@
 
 ---
 
-### lua/core/autocmd.lua
+### [lua/core/autocmd.lua](lua/core/autocmd.lua)
 
 | Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Notas/Duplicados                   |
 | ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
@@ -47,7 +47,7 @@
 
 ---
 
-### lua/plugins/lazy.lua
+### [lua/plugins/lazy.lua](lua/plugins/lazy.lua)
 
 **Estos atajos solo están activos dentro de la interfaz del plugin Lazy.**
 
@@ -58,6 +58,14 @@
 
 ---
 
+### [lua/plugins/ui/onedark.lua](lua/plugins/ui/onedark.lua)
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Notas/Duplicados                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>ot</kbd>                 | Tecla para alternar entre los diferentes estilos del tema | Normal          |                                     |
+
+---
+
 **Notas generales:**
 - Todos los keybindings agrupados por archivo para facilitar la edición.
 - Los duplicados se marcan y explican.
@@ -65,3 +73,7 @@
 - Todo está documentado en español.
 
 ⚠️ **Advertencia:** Se encontraron 2 keybindings sin descripción. Considera agregar comentarios descriptivos en el código fuente.
+
+**Keybindings sin descripción:**
+- [lua/core/autocmd.lua:L86](lua/core/autocmd.lua#L86) — Tecla: <kbd>q</kbd> — Modos: Normal
+- [lua/core/keys.lua:L86](lua/core/keys.lua#L86) — Tecla: <kbd>;</kbd> — Modos: Insert
