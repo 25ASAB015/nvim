@@ -3,3 +3,7 @@ scripts/__pycache__/
 *.pyo
 .env
 .DS_Store
+
+# Temporary files and tools
+stylua
+stylua.zip
