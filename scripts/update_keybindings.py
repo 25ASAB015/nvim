@@ -429,6 +429,13 @@ class KeybindingExtractor:
         except Exception as e:
             print(f"Aviso: no se pudieron extraer Snacks keys en {file_path}: {e}")
 
+        # Extensión: which-key tables (which_key.add({...}) / local <name> = { mode=..., { '<key>', ... } })
+        try:
+            wk_kbs = self.extract_which_key_style_keybindings(file_path, content)
+            keybindings.extend(wk_kbs)
+        except Exception as e:
+            print(f"Aviso: no se pudieron extraer which-key keys en {file_path}: {e}")
+
         return keybindings
 
     # =====================
@@ -545,6 +552,233 @@ class KeybindingExtractor:
             keybindings.append(kb)
 
         return keybindings
+
+    # ========================
+    #  which-key.lua parsing
+    # ========================
+    def _parse_mode_from_table_header(self, table_inner: str) -> List[str]:
+        """Extrae el/los modos definidos en la cabecera de una tabla which-key: mode = 'n' | {'n','v'}.
+        Si no se encuentra, retorna ["Normal"].
+        """
+        # Tabla de modos: mode = { 'n', 'x' }
+        m_tbl = re.search(r"mode\s*=\s*\{([^}]*)\}", table_inner, re.MULTILINE | re.DOTALL)
+        if m_tbl:
+            inner_modes = m_tbl.group(1)
+            modes = self.normalize_modes(inner_modes)
+            return modes if modes else ["Normal"]
+        # Modo simple: mode = 'n'
+        m_str = re.search(r"mode\s*=\s*(['\"][^'\"]+['\"])", table_inner)
+        if m_str:
+            modes = self.normalize_modes(m_str.group(1))
+            return modes if modes else ["Normal"]
+        return ["Normal"]
+
+    def _iter_top_level_entries(self, inner: str) -> List[str]:
+        """Devuelve una lista de strings, cada uno correspondiente a una entrada top-level
+        del tipo { ... } dentro de la tabla principal which-key (ignorando campos tipo mode=...).
+        Usa un pequeño parser por llaves a nivel de la tabla.
+        """
+        entries: List[str] = []
+        i = 0
+        length = len(inner)
+        in_string: Optional[str] = None
+        depth = 0
+        start_idx: Optional[int] = None
+        while i < length:
+            ch = inner[i]
+            if in_string is not None:
+                if ch == in_string:
+                    # comprobar escape
+                    if i > 0 and inner[i - 1] == '\\':
+                        i += 1
+                        continue
+                    in_string = None
+                i += 1
+                continue
+            if ch in ('"', "'"):
+                in_string = ch
+                i += 1
+                continue
+            if ch == '{':
+                if depth == 0:
+                    start_idx = i
+                depth += 1
+            elif ch == '}':
+                depth -= 1
+                if depth == 0 and start_idx is not None:
+                    entry = inner[start_idx:i + 1]
+                    # filtrar objetos que son asignaciones con clave (p.ej., foo = {...});
+                    # nos interesan los literales de entrada que empiezan por '{' y no contienen '=' antes de la primera coma
+                    entries.append(entry)
+                    start_idx = None
+            i += 1
+        return entries
+
+    def _parse_entry_kb(self, file_path: str, modes_default: List[str], entry: str, content_for_comments: str, line_offset: int) -> Optional['Keybinding']:
+        """Intenta extraer un Keybinding desde una entrada { '<key>', ... } de which-key.
+        Retorna None si no es válida.
+        """
+        # Debe comenzar con '{'
+        if not entry.strip().startswith('{'):
+            return None
+        # Buscar primera cadena: la tecla
+        str_literals = re.findall(r"['\"]([^'\"]+)['\"]", entry)
+        if not str_literals:
+            return None
+        key = str_literals[0].strip()
+        # Filtrar claves genéricas o no válidas
+        if key.lower() in ('<leader>', '<auto>'):
+            return None
+
+        # Detectar si es un grupo (group = '...')
+        m_group = re.search(r"group\s*=\s*['\"]([^'\"]+)['\"]", entry)
+        m_desc = re.search(r"desc\s*=\s*['\"]([^'\"]+)['\"]", entry)
+        # Modo por entrada (override)
+        entry_modes: Optional[List[str]] = None
+        m_entry_mode_tbl = re.search(r"mode\s*=\s*\{([^}]*)\}", entry)
+        if m_entry_mode_tbl:
+            entry_modes = self.normalize_modes(m_entry_mode_tbl.group(1))
+        else:
+            m_entry_mode_str = re.search(r"mode\s*=\s*(['\"][^'\"]+['\"])", entry)
+            if m_entry_mode_str:
+                entry_modes = self.normalize_modes(m_entry_mode_str.group(1))
+
+        modes = entry_modes if entry_modes else modes_default
+
+        description = ""
+        if m_desc:
+            description = m_desc.group(1).strip()
+        elif m_group:
+            description = m_group.group(1).strip()
+        else:
+            # Comentario cercano si no hay desc
+            # Calcular número de línea aproximado
+            line_number = content_for_comments[:line_offset].count('\n') + entry[:entry.find('{')].count('\n') + 1
+            description = self.extract_description_from_comment(content_for_comments, max(0, line_number - 1))
+
+        # Intentar detectar acción: segundo literal tipo comando ':...' o '<...>' si no hay desc/grupo
+        action = description or "Acción de which-key"
+        if len(str_literals) >= 2:
+            second = str_literals[1].strip()
+            # Si hay group, el segundo literal suele ser el valor del grupo; ignorar como acción
+            if not m_group:
+                if second.startswith(':') or '<' in second or second.endswith('<cr>') or re.match(r'^:[A-Za-z]', second):
+                    action = second
+
+        # Número de línea aproximado (inicio de la entrada dentro del archivo)
+        # Aproximación del número de línea: inicio del bloque donde vive la entrada
+        abs_line_number = content_for_comments[:line_offset].count('\n') + 1
+
+        # Contexto: marcar explícitamente si es encabezado de grupo
+        context_value = "which-key-group" if m_group else "which-key"
+
+        return Keybinding(
+            file_path=file_path,
+            modes=modes,
+            key=key,
+            action=action if action else (description or "Acción de which-key"),
+            description=description,
+            context=context_value,
+            line_number=abs_line_number,
+        )
+
+    def extract_which_key_style_keybindings(self, file_path: str, content: str) -> List['Keybinding']:
+        """Extrae keybindings definidos en tablas which-key como:
+        local name = { mode = 'n', { '<key>', ':cmd', desc = '...' }, { '<key2>', group = '...' } }
+        y entradas añadidas con table.insert(name, { ... }).
+        """
+        # Restringir a archivos which-key.lua
+        try:
+            base = os.path.basename(file_path)
+        except Exception:
+            base = file_path
+        if not base.endswith('which-key.lua'):
+            return []
+
+        results: List[Keybinding] = []
+
+        # Determinar cuáles tablas parsear: aquellas pasadas a which_key.add(<name>)
+        allowed_names: set = set()
+        for m in re.finditer(r"which_key\.add\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)", content):
+            allowed_names.add(m.group(1))
+
+        # Mapear nombre de tabla -> modos
+        var_modes: Dict[str, List[str]] = {}
+
+        # Capturar definiciones: (local )?<name> = { ... }
+        assign_re = re.compile(r"(?:local\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\{", re.MULTILINE)
+        for m in assign_re.finditer(content):
+            var_name = m.group(1)
+            if allowed_names and var_name not in allowed_names:
+                continue
+            start = m.end() - 1  # posición del '{'
+            end = self._find_matching_brace(content, start)
+            if end == -1:
+                continue
+            inner = content[start + 1:end]
+            modes = self._parse_mode_from_table_header(inner)
+            var_modes[var_name] = modes
+
+            # Iterar entradas top-level dentro de la tabla
+            entries = self._iter_top_level_entries(inner)
+            # Calcular offset para líneas
+            line_offset = m.end()
+            for entry in entries:
+                # Saltar si parece una asignación de campo (p.ej., mode = 'n')
+                if re.match(r"^\s*\{\s*['\"]", entry) is None:
+                    continue
+                kb = self._parse_entry_kb(file_path, modes, entry, content, line_offset)
+                if kb:
+                    results.append(kb)
+
+        # Capturar table.insert(name, { ... })
+        insert_re = re.compile(r"table\.insert\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*\{", re.MULTILINE)
+        for m in insert_re.finditer(content):
+            var_name = m.group(1)
+            if allowed_names and var_name not in allowed_names:
+                continue
+            start = m.end() - 1
+            end = self._find_matching_brace(content, start)
+            if end == -1:
+                continue
+            inner_entry = content[start:end + 1]
+            modes = var_modes.get(var_name, ["Normal"])
+            kb = self._parse_entry_kb(file_path, modes, inner_entry, content, m.start())
+            if kb:
+                results.append(kb)
+
+        # Heurística adicional: detectar mapeos numéricos con string.format('<leader>..%d', i)
+        numeric_insert_re = re.compile(
+            r"table\.insert\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*\{\s*string\.format\(\s*(['\"][^'\"]+['\"])",
+            re.MULTILINE,
+        )
+        seen_keys = {(kb.key, tuple(kb.modes)) for kb in results}
+        for m in numeric_insert_re.finditer(content):
+            var_name = m.group(1)
+            if allowed_names and var_name not in allowed_names:
+                continue
+            key_lit = m.group(2).strip('"\'')
+            if '%d' not in key_lit:
+                continue
+            modes = var_modes.get(var_name, ["Normal"])
+            sig = (key_lit, tuple(modes))
+            if sig in seen_keys:
+                continue
+            results.append(Keybinding(
+                file_path=file_path,
+                modes=modes,
+                key=key_lit,
+                action="Numerical mappings",
+                description="Numerical mappings",
+                context="which-key",
+                line_number=content[:m.start()].count('\n') + 1,
+            ))
+            seen_keys.add(sig)
+
+        return results
+
+        # Helper function used in _parse_entry_kb; placed here to avoid top-level clutter
+    
 
     def extract_all_keybindings(self) -> List[Keybinding]:
         """Extrae todos los keybindings del repositorio."""
@@ -707,7 +941,8 @@ class KeybindingExtractor:
         file_order = [
             'lua/core/keys.lua',
             'lua/core/autocmd.lua', 
-            'lua/plugins/lazy.lua'
+            'lua/plugins/lazy.lua',
+            'lua/plugins/ui/which-key.lua'
         ]
         
         processed_files = set()
@@ -723,8 +958,13 @@ class KeybindingExtractor:
                     if 'lazy.lua' in file_path:
                         doc += "**Estos atajos solo están activos dentro de la interfaz del plugin Lazy.**\n\n"
 
-                    # Vista principal: por categoría dentro de cada archivo
-                    doc += self.generate_by_category_section(file_keybindings, heading_level='####')
+                    # Vista principal
+                    if 'which-key.lua' in file_path:
+                        # Para which-key, render en formato "pretty" por grupos y modos
+                        doc += self.generate_which_key_pretty_sections(file_keybindings)
+                    else:
+                        # Por categoría (comportamiento estándar)
+                        doc += self.generate_by_category_section(file_keybindings, heading_level='####')
 
                     # (Vista compacta por tecla removida para simplificar)
 
@@ -741,7 +981,10 @@ class KeybindingExtractor:
         for file_path, file_keybindings in grouped.items():
             if file_path not in processed_files and file_keybindings:
                 doc += f"### [{file_path}]({file_path})\n\n"
-                doc += self.generate_by_category_section(file_keybindings, heading_level='####')
+                if 'which-key.lua' in file_path:
+                    doc += self.generate_which_key_pretty_sections(file_keybindings)
+                else:
+                    doc += self.generate_by_category_section(file_keybindings, heading_level='####')
                 doc += "\n---\n\n"
 
         # (Sección Árbol de <leader> removida para simplificar)
@@ -779,6 +1022,183 @@ class KeybindingExtractor:
                 doc += f"- [{rel_path}:L{kb.line_number}]({rel_path}#L{kb.line_number}) — Tecla: {key_fmt} — Modos: {modes_str}\n"
 
         return doc
+
+    def generate_which_key_group_section(self, keybindings: List[Keybinding], heading_level: str = '####') -> str:
+        """Agrupa which-key por modo y, dentro de cada modo, por grupos (group = ...).
+        - Para cada modo presente (Normal, Visual, Insert, ...):
+          - Se crean secciones por cada grupo detectado (índice visual), aunque estén vacías.
+          - Las entradas sin grupo van en "Otros (Modo)".
+        """
+        if not keybindings:
+            return ""
+
+        # Orden de modos fijo
+        mode_order = ['Normal', 'Visual', 'Select', 'Insert', 'Terminal', 'Command', 'Operator']
+
+        # Construir mapa modo -> keybindings en ese modo
+        per_mode: Dict[str, List[Keybinding]] = {m: [] for m in mode_order}
+        for kb in keybindings:
+            modes = kb.modes if kb.modes else ['Normal']
+            for m in modes:
+                if m in per_mode:
+                    per_mode[m].append(kb)
+
+        out: List[str] = []
+
+        for mode in mode_order:
+            mode_kbs = per_mode.get(mode, [])
+            if not mode_kbs:
+                continue
+
+            # 1) Detectar grupos de este modo: key -> nombre
+            group_prefix_to_name: Dict[str, str] = {}
+            for kb in mode_kbs:
+                if kb.context == 'which-key-group' and kb.key.lower().startswith('<leader>') and len(kb.key) == len('<leader>') + 1:
+                    group_name = kb.description or kb.action
+                    if group_name:
+                        group_prefix_to_name[kb.key] = group_name
+
+            # 2) Asignar a grupos u "otros" (sólo entradas de este modo)
+            grouped: Dict[str, List[Keybinding]] = {name: [] for name in group_prefix_to_name.values()}
+            others: List[Keybinding] = []
+
+            def prefix_order(p: str) -> str:
+                rest = p[len('<leader>'):] if p.lower().startswith('<leader>') else p
+                return rest
+
+            ordered_prefixes = sorted(group_prefix_to_name.keys(), key=prefix_order)
+
+            for kb in mode_kbs:
+                # Saltar encabezados de grupo
+                if kb.context == 'which-key-group' and kb.key in group_prefix_to_name:
+                    continue
+                placed = False
+                for prefix in ordered_prefixes:
+                    if kb.key.lower().startswith(prefix.lower()):
+                        grouped[group_prefix_to_name[prefix]].append(kb)
+                        placed = True
+                        break
+                if not placed:
+                    others.append(kb)
+
+            # 3) Render grupos de este modo
+            for prefix in ordered_prefixes:
+                group_name = group_prefix_to_name[prefix]
+                items = grouped.get(group_name, [])
+                out.append(f"{heading_level} {group_name}\n\n")
+                out.append(self.generate_markdown_table(items))
+                out.append("\n")
+
+            # 4) Otros (Modo)
+            out.append(f"{heading_level} Otros ({mode})\n\n")
+            out.append(self.generate_markdown_table(others))
+            out.append("\n")
+
+        return "".join(out)
+
+    # ========================
+    # Pretty which-key renderer
+    # ========================
+    def generate_which_key_pretty_sections(self, keybindings: List[Keybinding]) -> str:
+        """Genera la documentación de which-key con el formato deseado:
+        - "Leader Bindings (Normal Mode)" con grupos tipo "a - AI" y tabla Keybinding/Action
+        - "Leader Bindings (Visual Mode)" similar
+        - "Non Leader Bindings" para claves sin <leader>
+        """
+        if not keybindings:
+            return ""
+
+        # Helpers
+        def get_group_map(kbs: List[Keybinding]) -> Dict[str, str]:
+            groups: Dict[str, str] = {}
+            for kb in kbs:
+                if kb.context == 'which-key-group' and kb.key.lower().startswith('<leader>') and len(kb.key) == len('<leader>') + 1:
+                    lead_char = kb.key[len('<leader>'):]  # una sola letra
+                    groups[lead_char] = kb.description or kb.action
+            return groups
+
+        def format_leader_sequence(key: str) -> str:
+            # Espera prefijo <leader>
+            rest = key[len('<leader>'):] if key.lower().startswith('<leader>') else key
+            # Placeholder numérico
+            if '%d' in rest:
+                head = rest.replace('%d', '').strip()
+                rest_fmt = f"{head} 1..9".strip()
+            else:
+                # separa por caracteres individuales
+                rest_fmt = " ".join(list(rest))
+            return f"<kbd>Leader</kbd> <kbd> {rest_fmt} </kbd>"
+
+        def table_rows_for_group(kbs: List[Keybinding], prefix: str) -> str:
+            rows = []
+            for kb in sorted(kbs, key=lambda x: x.key.lower()):
+                if kb.context == 'which-key-group':
+                    continue
+                if not kb.key.lower().startswith(prefix.lower()):
+                    continue
+                key_disp = format_leader_sequence(kb.key)
+                action_disp = kb.description or kb.action or "(sin acción)"
+                rows.append(f"| {key_disp:<34} | {action_disp} |")
+            return "\n".join(rows)
+
+        def render_leader_mode(mode_name: str, kbs: List[Keybinding]) -> str:
+            out: List[str] = []
+            if not kbs:
+                return ""
+            # Título de modo
+            if mode_name == 'Normal':
+                out.append("## Leader Bindings (Normal Mode)\n\n")
+                out.append("> Leader == <kbd>Space</kbd>\n\n")
+            elif mode_name == 'Visual':
+                out.append("## Leader Bindings (Visual Mode)\n\n")
+            else:
+                out.append(f"## Leader Bindings ({mode_name} Mode)\n\n")
+
+            group_map = get_group_map(kbs)
+            for lead_char in sorted(group_map.keys()):
+                group_name = group_map[lead_char]
+                out.append(f"### {lead_char} - {group_name}\n\n")
+                out.append("| Keybinding                         | Action         |\n")
+                out.append("| ---------------------------------- | -------------- |\n")
+                rows = table_rows_for_group(kbs, f"<leader>{lead_char}")
+                out.append(rows + "\n\n" if rows else "\n")
+            return "".join(out)
+
+        def render_non_leader(kbs: List[Keybinding]) -> str:
+            non_leader = [kb for kb in kbs if not kb.key.lower().startswith('<leader>')]
+            if not non_leader:
+                return ""
+            out: List[str] = []
+            out.append("## Non Leader Bindings\n\n")
+            out.append("| Keybinding                         | Action                 |\n")
+            out.append("| ---------------------------------- | ---------------------- |\n")
+            for kb in sorted(non_leader, key=lambda x: x.key.lower()):
+                key_fmt = self.format_key_combination(kb.key)
+                action_disp = kb.description or kb.action or "(sin acción)"
+                out.append(f"| {key_fmt:<34} | {action_disp:<22} |\n")
+            out.append("\n")
+            return "".join(out)
+
+        # Agrupar por modo
+        mode_to_kbs: Dict[str, List[Keybinding]] = {}
+        for kb in keybindings:
+            modes = kb.modes if kb.modes else ['Normal']
+            for m in modes:
+                mode_to_kbs.setdefault(m, []).append(kb)
+
+        out: List[str] = []
+        # Render Normal, Visual en ese orden
+        for mode in ['Normal', 'Visual']:
+            out.append(render_leader_mode(mode, mode_to_kbs.get(mode, [])))
+        # Render otros modos si existiesen
+        for mode in sorted([m for m in mode_to_kbs.keys() if m not in ['Normal', 'Visual']]):
+            out.append(render_leader_mode(mode, mode_to_kbs.get(mode, [])))
+
+        # Non leader (de este archivo)
+        all_kbs = keybindings
+        out.append(render_non_leader(all_kbs))
+
+        return "".join(out)
 
     def generate_by_category_section(self, keybindings: List[Keybinding], heading_level: str = '###') -> str:
         """Construye sección agrupada por categorías funcionales.

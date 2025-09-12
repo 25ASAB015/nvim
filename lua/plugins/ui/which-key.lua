@@ -57,5 +57,86 @@ local setup = {
     },
 }
 
+local normal_mappings = {
+    mode = 'n',
+    { '<leader>x', ':x<cr>', desc = ' Save and Quit' },
+
+    { '<leader>a', group = ' AI' },
+
+    { '<leader>c', group = ' Code' },
+
+    { '<leader>e', group = ' Edit' },
+
+    { '<leader>f', group = ' Find' },
+
+    { '<leader>g', group = ' Git' },
+
+    { '<leader>i', group = ' Insert' },
+
+    { '<leader>j', group = ' Jump' },
+
+    { '<leader>l', group = ' LSP' },
+
+    { '<leader>m', group = ' Marks' },
+
+    { '<leader>n', group = ' Notes' },
+
+    { '<leader>o', group = ' Options' },
+
+    { '<leader>p', group = ' Packages' },
+
+    { '<leader>q', group = ' Quit' },
+
+    { '<leader>r', group = ' Refactor' },
+
+    { '<leader>s', group = ' Split' },
+
+    { '<leader>t', group = ' Terminal' },
+
+    { '<leader>w', group = ' Writing' },
+
+    { '<leader>y', group = ' Yank' },
+    { '<leader>yL', ':CopyAbsolutePathWithLine<cr>', desc = 'Absolute Path with Line' },
+    { '<leader>yP', ':CopyAbsolutePath<cr>', desc = 'Absolute Path' },
+    { '<leader>ya', ':%y+<cr>', desc = 'Copy Whole File' },
+    { '<leader>yf', ':CopyFileName<cr>', desc = 'File Name' },
+    { '<leader>yg', ':lua require"gitlinker".get_buf_range_url()<cr>', desc = 'Copy Git URL' },
+    { '<leader>yl', ':CopyRelativePathWithLine<cr>', desc = 'Relative Path with Line' },
+    { '<leader>yp', ':CopyRelativePath<cr>', desc = 'Relative Path' },
+}
+
+-- Numerical mappings
+for i = 1, 9 do
+    table.insert(normal_mappings, {
+        string.format('<leader>f%d', i),
+        string.format(':LualineBuffersJump%d<cr>', i),
+        desc = string.format('File %d', i),
+    })
+end
+
+local visual_mappings = {
+    mode = 'v',
+    { '<leader>a', group = ' AI' },
+
+    { '<leader>c', group = ' Code' },
+ 
+    { '<leader>g', group = ' Git' },
+ 
+    { '<leader>j', group = ' Jump' },
+ 
+    { '<leader>l', group = ' LSP' },
+ 
+
+    { '<leader>y', group = ' Yank' },
+    { '<leader>yg', ':lua require"gitlinker".get_buf_range_url("v")<cr>', desc = 'Copy Git URL' },
+}
+
+local no_leader_mappings = {
+    mode = 'n',
+
+}
 
 which_key.setup(setup)
+which_key.add(normal_mappings)
+which_key.add(visual_mappings)
+which_key.add(no_leader_mappings)

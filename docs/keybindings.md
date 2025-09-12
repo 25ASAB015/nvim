@@ -96,6 +96,146 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 ---
 
+### [lua/plugins/ui/which-key.lua](lua/plugins/ui/which-key.lua)
+
+## Leader Bindings (Normal Mode)
+
+> Leader == <kbd>Space</kbd>
+
+### a -  AI
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### c -  Code
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### e -  Edit
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### f -  Find
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+| <kbd>Leader</kbd> <kbd> f 1..9 </kbd> | Numerical mappings |
+
+### g -  Git
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### i -  Insert
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### j -  Jump
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### l -  LSP
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### m -  Marks
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### n -  Notes
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### o -  Options
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### p -  Packages
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### q -  Quit
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### r -  Refactor
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### s -  Split
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### t -  Terminal
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### w -  Writing
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### y -  Yank
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+| <kbd>Leader</kbd> <kbd> y a </kbd> | Copy Whole File |
+| <kbd>Leader</kbd> <kbd> y f </kbd> | File Name |
+| <kbd>Leader</kbd> <kbd> y g </kbd> | Copy Git URL |
+| <kbd>Leader</kbd> <kbd> y L </kbd> | Absolute Path with Line |
+| <kbd>Leader</kbd> <kbd> y l </kbd> | Relative Path with Line |
+| <kbd>Leader</kbd> <kbd> y P </kbd> | Absolute Path |
+| <kbd>Leader</kbd> <kbd> y p </kbd> | Relative Path |
+
+## Leader Bindings (Visual Mode)
+
+### a -  AI
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### c -  Code
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### g -  Git
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### j -  Jump
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### l -  LSP
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+
+### y -  Yank
+
+| Keybinding                         | Action         |
+| ---------------------------------- | -------------- |
+| <kbd>Leader</kbd> <kbd> y g </kbd> | Copy Git URL |
+
+
+---
+
 ### [lua/plugins/ui/onedark.lua](lua/plugins/ui/onedark.lua)
 
 #### UI/Tema

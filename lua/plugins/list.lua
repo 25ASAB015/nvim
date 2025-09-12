@@ -2,7 +2,7 @@
 -- ║                                                                            ║
 -- ║        📦 PLUGINS PRINCIPALES - CONFIGURACIÓN NVIM2K                       ║
 -- ║                                                                            ║
--- ║  Archivo:    list.lua                                                      ║  
+-- ║  Archivo:    list.lua                                                      ║
 -- ║  NOTA: Este archivo solo define la lista de plugins y su organización.     ║
 -- ║       La configuración de Lazy.nvim y su inicialización se encuentra en    ║
 -- ║       'plugins/lazy.lua'.                                                  ║
@@ -73,6 +73,19 @@ local plugins = {
         'folke/which-key.nvim',
         config = load_config('ui.which-key'),
         event = 'VeryLazy',
+    },
+
+  -- ═════════════════════════════════════════════════════════════════════════
+    -- 🛠️ CATEGORIA: TOOLS (HERRAMIENTAS GENERALES)
+    -- ═════════════════════════════════════════════════════════════════════════
+    -- Utilidades y herramientas para productividad
+   
+    {
+        -- Generación de enlaces de Git para compartir código
+        'ruifm/gitlinker.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        config = load_config('tools.gitlinker'),
+        keys = '<leader>yg',
     },
 
 }

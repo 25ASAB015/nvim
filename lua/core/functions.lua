@@ -29,33 +29,39 @@ vim.api.nvim_create_user_command('ReloadConfig', function()
     vim.notify('Copiado al portapapeles: "' .. content .. '"', vim.log.levels.INFO)
   end
   
-  -- Comando: Copiar ruta relativa del archivo actual
-  vim.api.nvim_create_user_command('CopyRelativePath', function()
-    local path = vim.fn.expand('%') -- Ruta relativa al directorio actual
-    copy_to_clipboard(path)
-  end, {})
+    -- Función auxiliar para copiar contenido al portapapeles con notificación
+    local function copy_to_clipboard(content)
+      vim.fn.setreg('+', content) -- Registra contenido en portapapeles + (sistema)
+      vim.notify('Copiado al portapapeles: "' .. content .. '"', vim.log.levels.INFO)
+    end
   
-  -- Comando: Copiar ruta absoluta del archivo actual
-  vim.api.nvim_create_user_command('CopyAbsolutePath', function()
-    local path = vim.fn.expand('%:p') -- Ruta completa absoluta
-    copy_to_clipboard(path)
-  end, {})
+    -- Comando: Copiar ruta relativa del archivo actual
+    vim.api.nvim_create_user_command('CopyRelativePath', function()
+      local path = vim.fn.expand('%:.')
+      copy_to_clipboard(path, 'Copiado "' .. path .. '" al portapapeles!')
+    end, {})
   
-  -- Comando: Copiar ruta relativa con línea actual (formato: ruta:línea)
-  vim.api.nvim_create_user_command('CopyRelativePathWithLine', function()
-    local path = vim.fn.expand('%')
-    local line = vim.fn.line('.')
-    local result = path .. ':' .. line
-    copy_to_clipboard(result)
-  end, {})
+    -- Comando: Copiar ruta absoluta del archivo actual
+    vim.api.nvim_create_user_command('CopyAbsolutePath', function()
+      local path = vim.fn.expand('%:p')
+      copy_to_clipboard(path, 'Copiado  "' .. path .. '" al portapapeles!')
+    end, {})
   
-  -- Comando: Copiar ruta absoluta con línea actual (formato: ruta:línea)
-  vim.api.nvim_create_user_command('CopyAbsolutePathWithLine', function()
-    local path = vim.fn.expand('%:p')
-    local line = vim.fn.line('.')
-    local result = path .. ':' .. line
-    copy_to_clipboard(result)
-  end, {})
+    -- Comando: Copiar ruta relativa con línea actual (formato: ruta:línea)
+    vim.api.nvim_create_user_command('CopyRelativePathWithLine', function()
+      local path = vim.fn.expand('%:.')
+      local line = vim.fn.line('.')
+      local result = path .. ':' .. line
+      copy_to_clipboard(result, 'Copiado "' .. result .. '" al portapapeles!')
+    end, {})
+
+    -- Comando: Copiar ruta absoluta con línea actual (formato: ruta:línea)
+    vim.api.nvim_create_user_command('CopyAbsolutePathWithLine', function()
+      local path = vim.fn.expand('%:p')
+      local line = vim.fn.line('.')
+      local result = path .. ':' .. line
+      copy_to_clipboard(result, 'Copiado "' .. result .. '" al portapapeles!')
+    end, {})
   
   -- Comando: Copiar solo el nombre del archivo actual
   vim.api.nvim_create_user_command('CopyFileName', function()
