@@ -109,7 +109,6 @@ lazy.setup({
                 })
             end,
         },
-        },
     },
     -- Configuración para mostrar diferencias en actualizaciones
     diff = { cmd = 'git' },
