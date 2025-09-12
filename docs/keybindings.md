@@ -167,6 +167,14 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 | Keybinding                         | Action         |
 | ---------------------------------- | -------------- |
+| <kbd>Leader</kbd> <kbd> q a </kbd> | Quit All |
+| <kbd>Leader</kbd> <kbd> q b </kbd> | Close Buffer |
+| <kbd>Leader</kbd> <kbd> q d </kbd> | Delete Buffer |
+| <kbd>Leader</kbd> <kbd> q f </kbd> | Force Quit |
+| <kbd>Leader</kbd> <kbd> q o </kbd> | Close Others |
+| <kbd>Leader</kbd> <kbd> q q </kbd> | Quit |
+| <kbd>Leader</kbd> <kbd> q s </kbd> | Close Split |
+| <kbd>Leader</kbd> <kbd> q w </kbd> | Write and Quit |
 
 ### r -  Refactor
 

@@ -86,6 +86,14 @@ local normal_mappings = {
     { '<leader>p', group = ' Packages' },
 
     { '<leader>q', group = ' Quit' },
+    { '<leader>qa', ':qall<cr>', desc = 'Quit All' },
+    { '<leader>qb', ':bw<cr>', desc = 'Close Buffer' },
+    { '<leader>qd', ':lua require("snacks").bufdelete()<cr>', desc = 'Delete Buffer' },
+    { '<leader>qf', ':qall!<cr>', desc = 'Force Quit' },
+    { '<leader>qo', ':%bdelete|b#|bdelete#<cr>', desc = 'Close Others' },
+    { '<leader>qq', ':q<cr>', desc = 'Quit' },
+    { '<leader>qs', '<C-w>c', desc = 'Close Split' },
+    { '<leader>qw', ':wq<cr>', desc = 'Write and Quit' },
 
     { '<leader>r', group = ' Refactor' },
 

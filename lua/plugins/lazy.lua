@@ -52,7 +52,7 @@ lazy.setup({
     -- Número de plugins que se pueden instalar/actualizar simultáneamente
     concurrency = 8,
     -- Configuración para desarrollo local de plugins
-    dev = { path = '~/Projects/2KAbhishek/', patterns = { '2kabhishek' }, fallback = true },
+    dev = { path = '~/Projects/25ASAB015/', patterns = { '25ASAB015' }, fallback = true },
     -- Configuración de instalación automática
     install = { missing = true, colorscheme = { 'onedark' } },
     -- Configuración de Git para la gestión de plugins
