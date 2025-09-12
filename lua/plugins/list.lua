@@ -67,6 +67,14 @@ local plugins = {
         config = load_config('ui.lualine'),
         event = { 'BufReadPost', 'BufNewFile' },
     },
+
+    {
+        -- Sistema de ayuda contextual para atajos de teclado
+        'folke/which-key.nvim',
+        config = load_config('ui.which-key'),
+        event = 'VeryLazy',
+    },
+
 }
 -- ──────────────────────────────────────────────────────────────────────────────
 -- 📤 EXPORTACIÓN DE CONFIGURACIÓN
