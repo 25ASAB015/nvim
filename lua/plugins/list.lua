@@ -88,6 +88,25 @@ local plugins = {
         keys = '<leader>yg',
     },
 
+     -- ═════════════════════════════════════════════════════════════════════════
+    -- 🏠 CATEGORIA: HOMEGROWN (PLUGINS DE 2KABHISHEK)
+    -- ═════════════════════════════════════════════════════════════════════════
+    -- Plugins desarrollados específicamente por el autor de nvim2k
+
+    {
+        -- Utilidades compartidas para plugins de 2kabhishek
+        '2kabhishek/utils.nvim',
+        cmd = 'UtilsClearCache',
+    },
+
+
+    {
+        -- Terminal integrado mejorado
+        '2kabhishek/termim.nvim',
+        cmd = { 'Fterm', 'FTerm', 'Sterm', 'STerm', 'Vterm', 'VTerm' },
+    },
+
+    
 }
 -- ──────────────────────────────────────────────────────────────────────────────
 -- 📤 EXPORTACIÓN DE CONFIGURACIÓN
