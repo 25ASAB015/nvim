@@ -190,6 +190,16 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 | Keybinding                         | Action         |
 | ---------------------------------- | -------------- |
+| <kbd>Leader</kbd> <kbd> t ` </kbd> | Horizontal Terminal |
+| <kbd>Leader</kbd> <kbd> t c </kbd> | Rails Console |
+| <kbd>Leader</kbd> <kbd> t d </kbd> | Exe Launcher |
+| <kbd>Leader</kbd> <kbd> t n </kbd> | Node |
+| <kbd>Leader</kbd> <kbd> t p </kbd> | Python |
+| <kbd>Leader</kbd> <kbd> t r </kbd> | Ruby |
+| <kbd>Leader</kbd> <kbd> t s </kbd> | Horizontal Terminal |
+| <kbd>Leader</kbd> <kbd> t t </kbd> | Terminal |
+| <kbd>Leader</kbd> <kbd> t v </kbd> | Vertical Terminal |
+| <kbd>Leader</kbd> <kbd> t w </kbd> | Exe Launcher, Wait |
 
 ### w -  Writing
 

@@ -100,6 +100,16 @@ local normal_mappings = {
     { '<leader>s', group = ' Split' },
 
     { '<leader>t', group = ' Terminal' },
+    { '<leader>t`', ':Sterm<cr>', desc = 'Horizontal Terminal' },
+    { '<leader>tc', ':Sterm bundle exec rails console<cr>', desc = 'Rails Console' },
+    { '<leader>td', ':Sterm dexe<cr>', desc = 'Exe Launcher' },
+    { '<leader>tn', ':Sterm node<cr>', desc = 'Node' },
+    { '<leader>tp', ':Sterm bpython<cr>', desc = 'Python' },
+    { '<leader>tr', ':Sterm irb<cr>', desc = 'Ruby' },
+    { '<leader>ts', ':Sterm<cr>', desc = 'Horizontal Terminal' },
+    { '<leader>tt', ':Fterm<cr>', desc = 'Terminal' },
+    { '<leader>tv', ':Vterm<cr>', desc = 'Vertical Terminal' },
+    { '<leader>tw', ':Sterm dexe --wait-before-exit<cr>', desc = 'Exe Launcher, Wait' },
 
     { '<leader>w', group = ' Writing' },
 
