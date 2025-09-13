@@ -106,6 +106,17 @@ local plugins = {
         cmd = { 'Fterm', 'FTerm', 'Sterm', 'STerm', 'Vterm', 'VTerm' },
     },
 
+    {
+        -- Integración con Exercism para práctica de programación
+        '2kabhishek/exercism.nvim',
+        cmd = { 'Exercism' },
+        keys = { '<leader>exa', '<leader>exl', '<leader>exr' },
+        dependencies = {
+            '2kabhishek/utils.nvim',
+            '2kabhishek/termim.nvim',
+        },
+        config = load_config('tools.exercism'),
+    },
     
 }
 -- ──────────────────────────────────────────────────────────────────────────────
