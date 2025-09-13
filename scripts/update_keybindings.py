@@ -436,6 +436,13 @@ class KeybindingExtractor:
         except Exception as e:
             print(f"Aviso: no se pudieron extraer which-key keys en {file_path}: {e}")
 
+        # Extensión: defaults derivados de ejemplos cuando add_default_keybindings = true
+        try:
+            ex_kbs = self.extract_exercism_default_keybindings(file_path, content)
+            keybindings.extend(ex_kbs)
+        except Exception as e:
+            print(f"Aviso: no se pudieron extraer defaults por ejemplos en {file_path}: {e}")
+
         return keybindings
 
     # =====================
@@ -779,6 +786,72 @@ class KeybindingExtractor:
 
         # Helper function used in _parse_entry_kb; placed here to avoid top-level clutter
     
+
+    def extract_exercism_default_keybindings(self, file_path: str, content: str) -> List['Keybinding']:
+        """Detecta `add_default_keybindings = true` en cualquier archivo Lua.
+
+        - Si hay un bloque de ejemplo (aunque esté comentado) con entradas del tipo
+          { '<tecla>', ':Comando<CR>', 'Descripción' }, se agregan como defaults.
+        - Si no hay ejemplo y el archivo parece de Exercism, se usa un fallback conocido.
+        """
+        m_flag = re.search(r"add_default_keybindings\s*=\s*true", content)
+        if not m_flag:
+            return []
+
+        flag_line = content[: m_flag.start()].count('\n') + 1
+
+        # Ventana acotada tras la bandera para buscar ejemplos
+        lines = content.split('\n')
+        start_line_idx = max(0, flag_line - 1)
+        end_line_idx = min(len(lines), start_line_idx + 200)
+        window = '\n'.join(lines[start_line_idx:end_line_idx])
+
+        example_items: List[Tuple[str, str, str]] = []
+        triple_re = re.compile(
+            r"\{\s*['\"]([^'\"]+)['\"]\s*,\s*['\"]([^'\"]+)['\"]\s*,\s*['\"]([^'\"]+)['\"]\s*\}\s*,?",
+            re.MULTILINE,
+        )
+        for m in triple_re.finditer(window):
+            key = m.group(1).strip()
+            action_cmd = m.group(2).strip()
+            desc = m.group(3).strip()
+            if not key or not desc:
+                continue
+            example_items.append((key, action_cmd, desc))
+
+        base = os.path.basename(file_path)
+        looks_like_exercism = base.endswith('exercism.lua') or 'exercism' in content.lower()
+        if not example_items and looks_like_exercism:
+            example_items = [
+                ("<leader>exa", ":Exercism languages<CR>", "All Exercism Languages"),
+                ("<leader>exl", ":Exercism list<CR>", "List Default Language Exercises"),
+                ("<leader>exr", ":Exercism recents<CR>", "Recent Exercises"),
+                ("<leader>ext", ":Exercism test<CR>", "Test Exercise"),
+                ("<leader>exs", ":Exercism submit<CR>", "Submit Exercise"),
+            ]
+
+        if not example_items:
+            return []
+
+        kbs: List[Keybinding] = []
+        context_note = "Exercism defaults (auto)" if looks_like_exercism else "Defaults (auto)"
+        line_offset = 0
+        for key, action_cmd, desc in example_items:
+            kbs.append(
+                Keybinding(
+                    file_path=file_path,
+                    modes=["Normal"],
+                    key=key,
+                    action=action_cmd,
+                    description=desc,
+                    context=context_note,
+                    line_number=flag_line + line_offset,
+                )
+            )
+            line_offset += 1
+
+        return kbs
+
 
     def extract_all_keybindings(self) -> List[Keybinding]:
         """Extrae todos los keybindings del repositorio."""

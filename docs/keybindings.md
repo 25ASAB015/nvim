@@ -116,6 +116,27 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 | Keybinding                         | Action         |
 | ---------------------------------- | -------------- |
+| <kbd>Leader</kbd> <kbd> e a </kbd> | Alternate File |
+| <kbd>Leader</kbd> <kbd> e c a </kbd> | Shell Aliases |
+| <kbd>Leader</kbd> <kbd> e c A </kbd> | Alacritty Config |
+| <kbd>Leader</kbd> <kbd> e c b </kbd> | Bash Config |
+| <kbd>Leader</kbd> <kbd> e c e </kbd> | Environment Config |
+| <kbd>Leader</kbd> <kbd> e c f </kbd> | Shell Functions |
+| <kbd>Leader</kbd> <kbd> e c g </kbd> | Git Config |
+| <kbd>Leader</kbd> <kbd> e c k </kbd> | Kitty Config |
+| <kbd>Leader</kbd> <kbd> e c l </kbd> | Local Env |
+| <kbd>Leader</kbd> <kbd> e c n </kbd> | Neovim Init |
+| <kbd>Leader</kbd> <kbd> e c p </kbd> | Plugin List |
+| <kbd>Leader</kbd> <kbd> e c q </kbd> | Qutebrowser Config |
+| <kbd>Leader</kbd> <kbd> e c t </kbd> | Tmux Config |
+| <kbd>Leader</kbd> <kbd> e c v </kbd> | Vim Config |
+| <kbd>Leader</kbd> <kbd> e c z </kbd> | Zsh Config |
+| <kbd>Leader</kbd> <kbd> e c Z </kbd> | Zsh Prompt Config |
+| <kbd>Leader</kbd> <kbd> e E </kbd> | File Explorer |
+| <kbd>Leader</kbd> <kbd> e f </kbd> | File Under Cursor |
+| <kbd>Leader</kbd> <kbd> e m </kbd> | Readme |
+| <kbd>Leader</kbd> <kbd> e n </kbd> | New File |
+| <kbd>Leader</kbd> <kbd> e t </kbd> | Explore Tree |
 
 ### f -  Find
 
@@ -250,6 +271,26 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 | Keybinding                         | Action         |
 | ---------------------------------- | -------------- |
 | <kbd>Leader</kbd> <kbd> y g </kbd> | Copy Git URL |
+
+
+---
+
+### [lua/plugins/tools/exercism.lua](lua/plugins/tools/exercism.lua)
+
+#### Archivos/Proyecto
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>exr</kbd>                | Recent Exercises                                    | [N]             | Exercism defaults (auto)            |
+
+#### Atajos con <leader>
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>exa</kbd>                | All Exercism Languages                              | [N]             | Exercism defaults (auto)            |
+| <kbd><leader>exl</kbd>                | List Default Language Exercises                     | [N]             | Exercism defaults (auto)            |
+| <kbd><leader>exs</kbd>                | Submit Exercise                                     | [N]             | Exercism defaults (auto)            |
+| <kbd><leader>ext</kbd>                | Test Exercise                                       | [N]             | Exercism defaults (auto)            |
 
 
 ---
