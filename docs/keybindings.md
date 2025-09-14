@@ -295,6 +295,42 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 ---
 
+### [lua/plugins/tools/octohub.lua](lua/plugins/tools/octohub.lua)
+
+#### Git
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>gop</kbd>                | Open GitHub Profile                                 | [N]             | Defaults (auto)                     |
+| <kbd><leader>goU</kbd>                | Repos by Pushed                                     | [N]             | Defaults (auto)                     |
+
+#### Atajos con <leader>
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>goA</kbd>                | Archived Repos                                      | [N]             | Defaults (auto)                     |
+| <kbd><leader>goa</kbd>                | Activity Stats                                      | [N]             | Defaults (auto)                     |
+| <kbd><leader>gob</kbd>                | Repos by Size                                       | [N]             | Defaults (auto)                     |
+| <kbd><leader>goc</kbd>                | Repos by Created                                    | [N]             | Defaults (auto)                     |
+| <kbd><leader>gof</kbd>                | Repos by Forks                                      | [N]             | Defaults (auto)                     |
+| <kbd><leader>goF</kbd>                | Forked Repos                                        | [N]             | Defaults (auto)                     |
+| <kbd><leader>gog</kbd>                | Contribution Graph                                  | [N]             | Defaults (auto)                     |
+| <kbd><leader>goi</kbd>                | Repos by Issues                                     | [N]             | Defaults (auto)                     |
+| <kbd><leader>gol</kbd>                | Repos by Language                                   | [N]             | Defaults (auto)                     |
+| <kbd><leader>goL</kbd>                | Filter by Language                                  | [N]             | Defaults (auto)                     |
+| <kbd><leader>goo</kbd>                | All Repos                                           | [N]             | Defaults (auto)                     |
+| <kbd><leader>goP</kbd>                | Private Repos                                       | [N]             | Defaults (auto)                     |
+| <kbd><leader>gor</kbd>                | Repo Stats                                          | [N]             | Defaults (auto)                     |
+| <kbd><leader>gos</kbd>                | Repos by Stars                                      | [N]             | Defaults (auto)                     |
+| <kbd><leader>goS</kbd>                | Starred Repos                                       | [N]             | Defaults (auto)                     |
+| <kbd><leader>goT</kbd>                | Template Repos                                      | [N]             | Defaults (auto)                     |
+| <kbd><leader>got</kbd>                | All Stats                                           | [N]             | Defaults (auto)                     |
+| <kbd><leader>gou</kbd>                | Repos by Updated                                    | [N]             | Defaults (auto)                     |
+| <kbd><leader>gow</kbd>                | Open Repo in Browser                                | [N]             | Defaults (auto)                     |
+
+
+---
+
 ### [lua/plugins/ui/onedark.lua](lua/plugins/ui/onedark.lua)
 
 #### UI/Tema
