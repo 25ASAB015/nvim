@@ -15,6 +15,7 @@ local icons = require('lib.icons')
 local colors = {
     bg = '#000000',
     fg = '#bbc2cf',
+    white = '#ffffff',
     yellow = '#ECBE7B',
     cyan = '#008080',
     darkblue = '#081633',

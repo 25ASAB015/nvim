@@ -1,14 +1,14 @@
 -- ╔══════════════════════════════════════════════════════════════════════╗
--- ║ exercism.lua: Configuración de integración con Exercism             ║
--- ║ Este archivo es invocado desde la configuración de plugins          ║
--- ║                                                                    ║
--- ║ Este archivo define y documenta la configuración principal para     ║
--- ║ la integración de Neovim con la plataforma Exercism, permitiendo    ║
--- ║ gestionar ejercicios, enviar soluciones y navegar el workspace.     ║
--- ║ Aquí se establecen valores predeterminados como el workspace,       ║
--- ║ el lenguaje por defecto, y otras opciones para personalizar la      ║
--- ║ experiencia de práctica de programación desde el editor.            ║
--- ║                                                                    ║
+-- ║ exercism.lua: Configuración de integración con Exercism              ║
+-- ║ Este archivo es invocado desde la configuración de plugins           ║
+-- ║                                                                      ║
+-- ║ Este archivo define y documenta la configuración principal para      ║
+-- ║ la integración de Neovim con la plataforma Exercism, permitiendo     ║
+-- ║ gestionar ejercicios, enviar soluciones y navegar el workspace.      ║
+-- ║ Aquí se establecen valores predeterminados como el workspace,        ║
+-- ║ el lenguaje por defecto, y otras opciones para personalizar la       ║
+-- ║ experiencia de práctica de programación desde el editor.             ║
+-- ║                                                                      ║
 -- ╚══════════════════════════════════════════════════════════════════════╝
 
 -- Configuración principal para el plugin de integración con Exercism.

@@ -92,7 +92,21 @@ local plugins = {
     -- 🏠 CATEGORIA: HOMEGROWN (PLUGINS DE 2KABHISHEK)
     -- ═════════════════════════════════════════════════════════════════════════
     -- Plugins desarrollados específicamente por el autor de nvim2k
-
+    {
+        -- Selector genérico con soporte para múltiples proveedores
+        '2kabhishek/pickme.nvim',
+        cmd = 'PickMe',
+        event = 'VeryLazy',
+        dependencies = {
+            'folke/snacks.nvim',
+            -- 'nvim-telescope/telescope.nvim', -- Alternativo
+            -- 'ibhagwan/fzf-lua',              -- Alternativo
+        },
+        opts = {
+            picker_provider = 'snacks',
+        },
+    },
+    
     {
         -- Utilidades compartidas para plugins de 2kabhishek
         '2kabhishek/utils.nvim',
@@ -116,6 +130,20 @@ local plugins = {
             '2kabhishek/termim.nvim',
         },
         config = load_config('tools.exercism'),
+    },
+
+    {
+        {
+            -- Integración con GitHub para gestión de repositorios
+            '2kabhishek/octohub.nvim',
+            cmd = { 'Octohub' },
+            keys = { '<leader>goo' },
+            dependencies = {
+                '2kabhishek/utils.nvim',
+            },
+            config = load_config('tools.octohub'),
+        },
+    
     },
     
 }
