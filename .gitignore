@@ -3,3 +3,6 @@ scripts/__pycache__/
 *.pyo
 .env
 .DS_Store
+
+# Custom user configs
+lua/user/

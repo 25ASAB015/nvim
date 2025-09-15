@@ -43,3 +43,16 @@ vim.api.nvim_set_hl(0, "NotifyERRORBorder", { bg = "none" })
 vim.api.nvim_set_hl(0, "NotifyWARNBorder", { bg = "none" })
 vim.api.nvim_set_hl(0, "NotifyTRACEBorder", { bg = "none" })
 vim.api.nvim_set_hl(0, "NotifyDEBUGBorder", { bg = "none" })
+ 
+-- set hlsearch color
+vim.api.nvim_set_hl(0, 'Search', { bg = '#8BCD5B', fg = '#202020' })
+vim.api.nvim_set_hl(0, 'CurSearch', { bg = '#EFBD5D', fg = '#000000' })
+vim.api.nvim_set_hl(0, 'IncSearch', { bg = '#F15664', fg = '#000000' })
+
+-- set cursorline color
+vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#1A1A1F' })
+vim.api.nvim_set_hl(0, 'CursorColumn', { bg = '#1A1A1F' })
+
+-- set visual highlight
+vim.api.nvim_set_hl(0, 'Visual', { bg = '#103070' })
+
