@@ -340,7 +340,7 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 | <kbd><leader>ecc</kbd>                | Neovim Configs                                      | [N]             | PickMe defaults (auto)              |
 | <kbd><leader>ecL</kbd>                | Neovim Logs                                         | [N]             | PickMe defaults (auto)              |
 | <kbd><leader>ecP</kbd>                | Neovim Plugins                                      | [N]             | PickMe defaults (auto)              |
-| <kbd><leader>ed</kbd>                 | Home Dirs -> open new Neovim instance at selected directory | [N]             |                                     |
+| <kbd><leader>ed</kbd>                 | Directorios en $HOME -> abrir nueva instancia de Neovim en el directorio seleccionado | [N]             |                                     |
 | <kbd><leader>fa</kbd>                 | Find Files                                          | [N]             | PickMe defaults (auto)              |
 | <kbd><leader>fd</kbd>                 | Project Dirs                                        | [N]             | PickMe defaults (auto)              |
 | <kbd><leader>ff</kbd>                 | Find Git Files                                      | [N]             | PickMe defaults (auto)              |
@@ -354,7 +354,7 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 | Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
 | ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
 | <kbd><leader>/</kbd>                  | Search History                                      | [N]             | PickMe defaults (auto)              |
-| <kbd><leader>eh</kbd>                 | Custom: search files anywhere in $HOME by name      | [N]             |                                     |
+| <kbd><leader>eh</kbd>                 | Personalizado: buscar archivos en cualquier parte de $HOME por nombre | [N]             |                                     |
 | <kbd><leader>ol</kbd>                 | Search for Plugin Spec                              | [N]             | PickMe defaults (auto)              |
 | <kbd><leader>os</kbd>                 | Search History                                      | [N]             | PickMe defaults (auto)              |
 
@@ -432,6 +432,42 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 | <kbd><leader>om</kbd>                 | Man Pages                                           | [N]             | PickMe defaults (auto)              |
 | <kbd><leader>on</kbd>                 | Notifications                                       | [N]             | PickMe defaults (auto)              |
 | <kbd><leader>oo</kbd>                 | Options                                             | [N]             | PickMe defaults (auto)              |
+
+
+---
+
+### [lua/plugins/tools/tdo.lua](lua/plugins/tools/tdo.lua)
+
+#### Navegación
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>ng</kbd>                 | Find Notes                                          | [N]             | Defaults (auto)                     |
+
+#### Archivos/Proyecto
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>nf</kbd>                 | All Notes                                           | [N]             | Defaults (auto)                     |
+
+#### UI/Tema
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>nx</kbd>                 | Toggle Todo                                         | [N]             | Defaults (auto)                     |
+
+#### Atajos con <leader>
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>nc</kbd>                 | Create Note                                         | [N]             | Defaults (auto)                     |
+| <kbd><leader>nt</kbd>                 | Incomplete Todos                                    | [N]             | Defaults (auto)                     |
+
+#### Otros
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd>README.md</kbd>                  | todos.sh                                            | [N]             | Defaults (auto)                     |
 
 
 ---
