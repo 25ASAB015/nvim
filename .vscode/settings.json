@@ -1,0 +1,9 @@
+{
+    "editor.formatOnSave": true,
+    "[lua]": {
+        "editor.defaultFormatter": "JohnnyMorganz.stylua",
+        "editor.formatOnSave": true
+    },
+    "stylua.trace.server": "off",
+    "stylua.configPath": "${workspaceFolder}/.stylua.toml"
+}
