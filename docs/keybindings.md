@@ -331,6 +331,111 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 ---
 
+### [lua/plugins/tools/pickme.lua](lua/plugins/tools/pickme.lua)
+
+#### Navegación
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>ecc</kbd>                | Neovim Configs                                      | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ecL</kbd>                | Neovim Logs                                         | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ecP</kbd>                | Neovim Plugins                                      | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ed</kbd>                 | Home Dirs -> open new Neovim instance at selected directory | [N]             |                                     |
+| <kbd><leader>fa</kbd>                 | Find Files                                          | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fd</kbd>                 | Project Dirs                                        | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ff</kbd>                 | Find Git Files                                      | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ld</kbd>                 | LSP Definitions                                     | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>lt</kbd>                 | Type Definitions                                    | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>oj</kbd>                 | Jump List                                           | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ot</kbd>                 | Treesitter Find                                     | [N]             | PickMe defaults (auto)              |
+
+#### Búsqueda
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>/</kbd>                  | Search History                                      | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>eh</kbd>                 | Custom: search files anywhere in $HOME by name      | [N]             |                                     |
+| <kbd><leader>ol</kbd>                 | Search for Plugin Spec                              | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>os</kbd>                 | Search History                                      | [N]             | PickMe defaults (auto)              |
+
+#### Ventanas/Buffers/Tabs
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>,</kbd>                  | Buffers                                             | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fb</kbd>                 | Buffers                                             | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fo</kbd>                 | Grep Open Buffers                                   | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fs</kbd>                 | Buffer Lines                                        | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ll</kbd>                 | Buffer Diagnostics                                  | [N]             | PickMe defaults (auto)              |
+
+#### Archivos/Proyecto
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><Ctrl-f></kbd>                   | Files                                               | [N]             | PickMe defaults (auto)              |
+| <kbd><leader><space></kbd>            | Files                                               | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fm</kbd>                 | Modified Files                                      | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fr</kbd>                 | Recent Files                                        | [N]             | PickMe defaults (auto)              |
+
+#### Git
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>fc</kbd>                 | File Commits                                        | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>gc</kbd>                 | Git Commits                                         | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>gL</kbd>                 | Git Log                                             | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>gl</kbd>                 | Git Log Line                                        | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>gS</kbd>                 | Git Stash                                           | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>gs</kbd>                 | Git Branches                                        | [N]             | PickMe defaults (auto)              |
+
+#### LSP/Diagnóstico
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>lD</kbd>                 | LSP Declarations                                    | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>lF</kbd>                 | References                                          | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>li</kbd>                 | LSP Implementations                                 | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>lL</kbd>                 | Diagnostics                                         | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>lS</kbd>                 | Workspace Symbols                                   | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ls</kbd>                 | Document Symbols                                    | [N]             | PickMe defaults (auto)              |
+
+#### UI/Tema
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>fq</kbd>                 | Quickfix List                                       | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>oC</kbd>                 | Colorschemes                                        | [N]             | PickMe defaults (auto)              |
+
+#### Atajos con <leader>
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>:</kbd>                  | Command History                                     | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fg</kbd>                 | Grep                                                | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fl</kbd>                 | Location List                                       | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fp</kbd>                 | Previous Picker                                     | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ft</kbd>                 | All Pickers                                         | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fu</kbd>                 | Undo History                                        | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fw</kbd>                 | Word Grep                                           | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>fz</kbd>                 | Zoxide                                              | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ii</kbd>                 | Icons                                               | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ir</kbd>                 | Registers                                           | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>is</kbd>                 | Spell Suggestions                                   | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>iv</kbd>                 | Clipboard                                           | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>oa</kbd>                 | Autocmds                                            | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>oc</kbd>                 | Command History                                     | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>od</kbd>                 | Docs                                                | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>of</kbd>                 | Marks                                               | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>og</kbd>                 | Commands                                            | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>oh</kbd>                 | Highlights                                          | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>ok</kbd>                 | Keymaps                                             | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>om</kbd>                 | Man Pages                                           | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>on</kbd>                 | Notifications                                       | [N]             | PickMe defaults (auto)              |
+| <kbd><leader>oo</kbd>                 | Options                                             | [N]             | PickMe defaults (auto)              |
+
+
+---
+
 ### [lua/plugins/ui/onedark.lua](lua/plugins/ui/onedark.lua)
 
 #### UI/Tema
@@ -363,6 +468,10 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 ## Conflictos y solapamientos
 
+- Tecla <kbd><leader>ot</kbd>:
+  - [N]: 
+    - Treesitter Find — [lua/plugins/tools/pickme.lua:L246](lua/plugins/tools/pickme.lua#L246)
+    - Tecla para alternar entre los diferentes estilos del tema — [lua/plugins/ui/onedark.lua:L37](lua/plugins/ui/onedark.lua#L37)
 - Tecla <kbd>n</kbd>:
   - [N]: 
     - Buscar siguiente y centrar — [lua/core/keys.lua:L57](lua/core/keys.lua#L57)

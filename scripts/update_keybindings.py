@@ -443,11 +443,47 @@ class KeybindingExtractor:
         except Exception as e:
             print(f"Aviso: no se pudieron extraer defaults por ejemplos en {file_path}: {e}")
 
+        # Extensión: defaults para PickMe (detecta add_keymap(...) incluso si está comentado)
+        try:
+            pickme_kbs = self.extract_pickme_default_keybindings(file_path, content)
+            keybindings.extend(pickme_kbs)
+        except Exception as e:
+            print(f"Aviso: no se pudieron extraer defaults de PickMe en {file_path}: {e}")
+
         return keybindings
 
     # =====================
     #  Snacks keys parsing
     # =====================
+    def _find_matching_paren(self, text: str, start_index: int) -> int:
+        """Devuelve el índice de la ')' que cierra el bloque iniciado en start_index (posición del '(').
+        Ignora paréntesis dentro de cadenas simples o dobles. Retorna -1 si no encuentra cierre.
+        """
+        depth = 0
+        in_string: Optional[str] = None
+        i = start_index
+        while i < len(text):
+            ch = text[i]
+            if in_string:
+                if ch == in_string:
+                    if i > 0 and text[i - 1] == '\\':
+                        i += 1
+                        continue
+                    in_string = None
+                i += 1
+                continue
+            if ch in ('"', "'"):
+                in_string = ch
+                i += 1
+                continue
+            if ch == '(':
+                depth += 1
+            elif ch == ')':
+                depth -= 1
+                if depth == 0:
+                    return i
+            i += 1
+        return -1
     def _find_matching_brace(self, text: str, start_index: int) -> int:
         """Devuelve el índice de la '}' que cierra el bloque iniciado en start_index (que debe estar en '{').
         Ignora llaves dentro de cadenas simples o dobles. Retorna -1 si no encuentra cierre.
@@ -852,6 +888,70 @@ class KeybindingExtractor:
 
         return kbs
 
+
+    def extract_pickme_default_keybindings(self, file_path: str, content: str) -> List['Keybinding']:
+        """Detecta `add_default_keybindings = true` y extrae ejemplos de PickMe del tipo
+        add_keymap('<key>', ':PickMe ...<cr>', 'Descripción') aunque estén comentados.
+        """
+        # Requiere la bandera
+        if re.search(r"add_default_keybindings\s*=\s*true", content) is None:
+            return []
+
+        # Remover prefijos de comentario al inicio de líneas para permitir detectar llamadas comentadas
+        search_text = re.sub(r"(?m)^\s*--\s*", "", content)
+
+        # Buscar posiciones de 'add_keymap(' y extraer con emparejado de paréntesis
+        add_pos_re = re.compile(r"add_keymap\s*\(")
+        # Literal de string robusto: '...' o "..." con escapes
+        str_lit_re = re.compile(r"'(?:[^'\\]|\\.)*'|\"(?:[^\"\\]|\\.)*\"")
+
+        def unquote(value: str) -> str:
+            """Quita comillas de un literal y desescapa comillas/backslashes básicos."""
+            value = value.strip()
+            if len(value) >= 2 and value[0] in ("'", '"') and value[-1] == value[0]:
+                quote = value[0]
+                inner = value[1:-1]
+                inner = inner.replace('\\\\', '\\')
+                if quote == '"':
+                    inner = inner.replace('\\"', '"')
+                else:
+                    inner = inner.replace("\\'", "'")
+                return inner
+            return value
+
+        kbs: List[Keybinding] = []
+        for m in re.finditer(r"add_keymap\s*\(", search_text):
+            open_idx = m.end() - 1  # posición del '('
+            close_idx = self._find_matching_paren(search_text, open_idx)
+            if close_idx == -1:
+                continue
+            inner_args = search_text[open_idx + 1:close_idx]
+            # Quitar prefijos de comentario intra-llamada por si cada argumento está comentado en su línea
+            inner_clean = re.sub(r"(?m)^\s*--\s*", "", inner_args)
+            lits = str_lit_re.findall(inner_clean)
+            if len(lits) < 3:
+                continue
+            key = unquote(lits[0])
+            action_cmd = unquote(lits[1])
+            desc = unquote(lits[2])
+            # Filtro rápido: asegurarnos de que parece un comando de PickMe o una acción razonable
+            if not key or not desc:
+                continue
+            # Número de línea aproximado
+            line_number = search_text[: m.start()].count('\n') + 1
+            kbs.append(
+                Keybinding(
+                    file_path=file_path,
+                    modes=["Normal"],
+                    key=key,
+                    action=action_cmd or desc,
+                    description=desc,
+                    context="PickMe defaults (auto)",
+                    line_number=line_number,
+                )
+            )
+
+        return kbs
 
     def extract_all_keybindings(self) -> List[Keybinding]:
         """Extrae todos los keybindings del repositorio."""
