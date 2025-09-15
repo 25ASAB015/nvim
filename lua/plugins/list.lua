@@ -114,7 +114,13 @@ local plugins = {
         cmd = 'UtilsClearCache',
     },
 
-
+        -- Gestor de TODOs integrado
+    {
+        '2kabhishek/tdo.nvim',
+        cmd = { 'Tdo' },
+        keys = { '<leader>nn', '<leader>nt', '<leader>nx', '[t', ']t' },
+        config = load_config('tools.tdo'),
+    },
     {
         -- Terminal integrado mejorado
         '2kabhishek/termim.nvim',
