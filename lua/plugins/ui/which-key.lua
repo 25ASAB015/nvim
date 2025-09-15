@@ -105,6 +105,10 @@ local normal_mappings = {
     { '<leader>l', group = ' LSP' },
 
     { '<leader>m', group = ' Marks' },
+    { '<leader>mg', group = 'Group Bookmarks' },
+    { '<leader>mG', group = 'Group Bookmarks In Project' },
+    { '<leader>mn', group = 'Next Bookmark In Group' },
+    { '<leader>mp', group = 'Previous Bookmark In Group' },
 
     { '<leader>n', group = ' Notes' },
 
