@@ -490,6 +490,24 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 ---
 
+### [lua/plugins/ui/gitsigns.lua](lua/plugins/ui/gitsigns.lua)
+
+#### Búsqueda
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Notas/Duplicados                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd>[e</kbd>                         | Navegación: hunk anterior                           | [N]             |                                     |
+| <kbd>]e</kbd>                         | Navegación: siguiente hunk                          | [N]             |                                     |
+
+#### Selección
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Notas/Duplicados                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd>ih</kbd>                         | Objeto de texto para seleccionar un hunk            | [V] [O]         |                                     |
+
+
+---
+
 ### [lua/plugins/ui/onedark.lua](lua/plugins/ui/onedark.lua)
 
 #### UI/Tema

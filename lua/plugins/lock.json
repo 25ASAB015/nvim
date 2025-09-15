@@ -2,6 +2,7 @@
   "co-author.nvim": { "branch": "main", "commit": "2f012714247dfe1959ba53fa50e4b1320d86d1b8" },
   "exercism.nvim": { "branch": "main", "commit": "7cb452432dcc0168ab3b246b0339b97b06408fef" },
   "gitlinker.nvim": { "branch": "master", "commit": "cc59f732f3d043b626c8702cb725c82e54d35c25" },
+  "gitsigns.nvim": { "branch": "main", "commit": "f780609807eca1f783a36a8a31c30a48fbe150c5" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
   "lualine.nvim": { "branch": "master", "commit": "b8c23159c0161f4b89196f74ee3a6d02cdc3a955" },
   "nerdy.nvim": { "branch": "main", "commit": "a8e3f70dc0232e956adfb12c647b7e9e2b2e6c89" },
@@ -14,5 +15,6 @@
   "tdo.nvim": { "branch": "main", "commit": "025bbdb74743b61a4a5275e6cf17fc6c09410517" },
   "termim.nvim": { "branch": "main", "commit": "e4bcf977bef6f6c79996e38fcb9faeccd912007c" },
   "utils.nvim": { "branch": "main", "commit": "8950622bd6861f2257364e5027c5613f29225e17" },
+  "vim-fugitive": { "branch": "master", "commit": "61b51c09b7c9ce04e821f6cf76ea4f6f903e3cf4" },
   "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" }
 }
