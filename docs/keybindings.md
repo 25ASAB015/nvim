@@ -148,6 +148,7 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 | Keybinding                         | Action         |
 | ---------------------------------- | -------------- |
+| <kbd>Leader</kbd> <kbd> g C </kbd> | Co-Authors |
 
 ### i -  Insert
 
@@ -291,6 +292,23 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 | <kbd><leader>exl</kbd>                | List Default Language Exercises                     | [N]             | Exercism defaults (auto)            |
 | <kbd><leader>exs</kbd>                | Submit Exercise                                     | [N]             | Exercism defaults (auto)            |
 | <kbd><leader>ext</kbd>                | Test Exercise                                       | [N]             | Exercism defaults (auto)            |
+
+
+---
+
+### [lua/plugins/tools/nerdy.lua](lua/plugins/tools/nerdy.lua)
+
+#### Archivos/Proyecto
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>iN</kbd>                 | Nerdy: Recent Icons                                 | [N]             | Nerdy defaults (auto)               |
+
+#### Atajos con <leader>
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>in</kbd>                 | Nerdy: List Icons                                   | [N]             | Nerdy defaults (auto)               |
 
 
 ---
