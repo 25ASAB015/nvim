@@ -105,6 +105,7 @@ local plugins = {
         opts = {
             picker_provider = 'snacks',
         },
+        config = load_config('tools.pickme'),
     },
     
     {
