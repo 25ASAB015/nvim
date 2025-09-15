@@ -457,6 +457,13 @@ class KeybindingExtractor:
         except Exception as e:
             print(f"Aviso: no se pudieron extraer defaults de Nerdy en {file_path}: {e}")
 
+        # Extensión: defaults para Markit (si add_default_keybindings = true)
+        try:
+            markit_kbs = self.extract_markit_default_keybindings(file_path, content)
+            keybindings.extend(markit_kbs)
+        except Exception as e:
+            print(f"Aviso: no se pudieron extraer defaults de Markit en {file_path}: {e}")
+
         return keybindings
 
     # =====================
@@ -994,6 +1001,70 @@ class KeybindingExtractor:
                     action=action_cmd,
                     description=desc,
                     context="Nerdy defaults (auto)",
+                    line_number=flag_line + line_offset,
+                )
+            )
+            line_offset += 1
+
+        return kbs
+
+    def extract_markit_default_keybindings(self, file_path: str, content: str) -> List['Keybinding']:
+        """Detecta `add_default_keybindings = true` en markit.lua y extrae ejemplos tipo
+        { '<key>', ':Markit ...<cr>', 'Descripción' } aunque estén comentados.
+        """
+        # Limitar a archivos de Markit explícitamente
+        try:
+            base = os.path.basename(file_path)
+        except Exception:
+            base = file_path
+        is_markit_file = base.endswith('markit.lua') or re.search(r"require\(\s*['\"]markit['\"]\s*\)", content) is not None
+        if not is_markit_file:
+            return []
+
+        # Verificar bandera
+        if re.search(r"add_default_keybindings\s*=\s*true", content) is None:
+            return []
+
+        # Ventana acotada tras la bandera para buscar ejemplos
+        flag_match = re.search(r"add_default_keybindings\s*=\s*true", content)
+        if not flag_match:
+            return []
+        flag_line = content[: flag_match.start()].count('\n') + 1
+        lines = content.split('\n')
+        start_line_idx = max(0, flag_line - 1)
+        end_line_idx = min(len(lines), start_line_idx + 250)
+        window = '\n'.join(lines[start_line_idx:end_line_idx])
+
+        # Para robustez, permitir líneas comentadas
+        window_clean = re.sub(r"(?m)^\s*--\s*", "", window)
+
+        triple_re = re.compile(
+            r"\{\s*['\"]([^'\"]+)['\"]\s*,\s*['\"]([^'\"]+)['\"]\s*,\s*['\"]([^'\"]+)['\"]\s*\}\s*,?",
+            re.MULTILINE,
+        )
+
+        items: List[Tuple[str, str, str]] = []
+        for m in triple_re.finditer(window_clean):
+            key = m.group(1).strip()
+            action_cmd = m.group(2).strip()
+            desc = m.group(3).strip()
+            if key and desc:
+                items.append((key, action_cmd, desc))
+
+        if not items:
+            return []
+
+        kbs: List[Keybinding] = []
+        line_offset = 0
+        for key, action_cmd, desc in items:
+            kbs.append(
+                Keybinding(
+                    file_path=file_path,
+                    modes=["Normal"],
+                    key=key,
+                    action=action_cmd,
+                    description=desc,
+                    context="Markit defaults (auto)",
                     line_number=flag_line + line_offset,
                 )
             )

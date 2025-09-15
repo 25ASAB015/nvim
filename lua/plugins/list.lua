@@ -44,13 +44,13 @@ local plugins = {
         -- Tema principal OneDark con configuración personalizada
         'navarasu/onedark.nvim',
         config = load_config('ui.onedark'),
-        lazy = false,        -- Se carga inmediatamente
-        priority = 1000,     -- Alta prioridad para evitar parpadeos
+        lazy = false, -- Se carga inmediatamente
+        priority = 1000, -- Alta prioridad para evitar parpadeos
     },
 
     {
         -- Iconos web para mejorar la visualización de archivos
-        'nvim-tree/nvim-web-devicons'
+        'nvim-tree/nvim-web-devicons',
     },
 
     {
@@ -83,11 +83,17 @@ local plugins = {
         event = { 'BufReadPost', 'BufNewFile' },
     },
 
-  -- ═════════════════════════════════════════════════════════════════════════
+    {
+        '2kabhishek/markit.nvim',
+        config = load_config('ui.markit'),
+        event = { 'BufReadPost', 'BufNewFile' },
+    },
+
+    -- ═════════════════════════════════════════════════════════════════════════
     -- 🛠️ CATEGORIA: TOOLS (HERRAMIENTAS GENERALES)
     -- ═════════════════════════════════════════════════════════════════════════
     -- Utilidades y herramientas para productividad
-   
+
     {
         -- Generación de enlaces de Git para compartir código
         'ruifm/gitlinker.nvim',
@@ -101,7 +107,7 @@ local plugins = {
         'tpope/vim-fugitive',
         cmd = 'Git',
     },
-     -- ═════════════════════════════════════════════════════════════════════════
+    -- ═════════════════════════════════════════════════════════════════════════
     -- 🏠 CATEGORIA: HOMEGROWN (PLUGINS DE 2KABHISHEK)
     -- ═════════════════════════════════════════════════════════════════════════
     {
@@ -147,49 +153,47 @@ local plugins = {
 
     {
         -- Gestor de TODOs integrado
-    {
-        '2kabhishek/tdo.nvim',
-        cmd = { 'Tdo' },
-        keys = { '<leader>nn', '<leader>nt', '<leader>nx', '[t', ']t' },
-        config = load_config('tools.tdo'),
-    },
-
-    {
-        -- Integración con GitHub para gestión de repositorios
-        '2kabhishek/octohub.nvim',
-        cmd = { 'Octohub' },
-        keys = { '<leader>goo' },
-        dependencies = {
-            '2kabhishek/utils.nvim',
+        {
+            '2kabhishek/tdo.nvim',
+            cmd = { 'Tdo' },
+            keys = { '<leader>nn', '<leader>nt', '<leader>nx', '[t', ']t' },
+            config = load_config('tools.tdo'),
         },
-        config = load_config('tools.octohub'),
-    },
 
-    {
-        -- Integración con Exercism para práctica de programación
-        '2kabhishek/exercism.nvim',
-        cmd = { 'Exercism' },
-        keys = { '<leader>exa', '<leader>exl', '<leader>exr' },
-        dependencies = {
-            '2kabhishek/utils.nvim',
-            '2kabhishek/termim.nvim',
+        {
+            -- Integración con GitHub para gestión de repositorios
+            '2kabhishek/octohub.nvim',
+            cmd = { 'Octohub' },
+            keys = { '<leader>goo' },
+            dependencies = {
+                '2kabhishek/utils.nvim',
+            },
+            config = load_config('tools.octohub'),
         },
-        config = load_config('tools.exercism'),
+
+        {
+            -- Integración con Exercism para práctica de programación
+            '2kabhishek/exercism.nvim',
+            cmd = { 'Exercism' },
+            keys = { '<leader>exa', '<leader>exl', '<leader>exr' },
+            dependencies = {
+                '2kabhishek/utils.nvim',
+                '2kabhishek/termim.nvim',
+            },
+            config = load_config('tools.exercism'),
+        },
+
+        -- Plugin de template comentado para desarrollo
+        -- {
+        --     '2kabhishek/template.nvim',
+        --     cmd = { 'Template' },
+        --     keys = { 'th' },
+        --     dependencies = { '2kabhishek/utils.nvim', },
+        --     config = load_config('tools.template'),
+        --     opts = {},
+        --     dir = '~/Projects/2KAbhishek/exercism.nvim/',
+        -- },
     },
-
-    -- Plugin de template comentado para desarrollo
-    -- {
-    --     '2kabhishek/template.nvim',
-    --     cmd = { 'Template' },
-    --     keys = { 'th' },
-    --     dependencies = { '2kabhishek/utils.nvim', },
-    --     config = load_config('tools.template'),
-    --     opts = {},
-    --     dir = '~/Projects/2KAbhishek/exercism.nvim/',
-    -- },
-    
-}
-
 }
 -- ──────────────────────────────────────────────────────────────────────────────
 -- 📤 EXPORTACIÓN DE CONFIGURACIÓN

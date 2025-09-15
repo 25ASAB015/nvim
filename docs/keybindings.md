@@ -508,6 +508,48 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 ---
 
+### [lua/plugins/ui/markit.lua](lua/plugins/ui/markit.lua)
+
+#### Ventanas/Buffers/Tabs
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>mD</kbd>                 | Delete Marks In Buffer                              | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mM</kbd>                 | Buffer Marks                                        | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mqM</kbd>                | Buffer Marks → QuickFix                             | [N]             | Defaults (auto); Markit defaults (auto) |
+
+#### UI/Tema
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>mqb</kbd>                | All Bookmarks → QuickFix                            | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mqg</kbd>                | All Marks → QuickFix                                | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mqm</kbd>                | All Marks → QuickFix                                | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mt</kbd>                 | Toggle Mark at Cursor                               | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mT</kbd>                 | Toggle Mark (Interactive)                           | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mv</kbd>                 | Toggle Signs                                        | [N]             | Defaults (auto); Markit defaults (auto) |
+
+#### Atajos con <leader>
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><leader>ma</kbd>                 | Annotate Bookmark                                   | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mb</kbd>                 | All Bookmarks                                       | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>md</kbd>                 | Delete Marks In Line                                | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mh</kbd>                 | Previous Bookmark                                   | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mj</kbd>                 | Next Mark                                           | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mk</kbd>                 | Previous Mark                                       | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>ml</kbd>                 | Next Bookmark                                       | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mm</kbd>                 | All Marks                                           | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mP</kbd>                 | Preview Mark                                        | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>ms</kbd>                 | Set Next Available Mark                             | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mS</kbd>                 | Set Mark (Interactive)                              | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mX</kbd>                 | Delete Mark (Interactive)                           | [N]             | Defaults (auto); Markit defaults (auto) |
+| <kbd><leader>mx</kbd>                 | Delete Bookmark at Cursor                           | [N]             | Defaults (auto); Markit defaults (auto) |
+
+
+---
+
 ### [lua/plugins/ui/onedark.lua](lua/plugins/ui/onedark.lua)
 
 #### UI/Tema
