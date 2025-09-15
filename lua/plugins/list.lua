@@ -91,7 +91,6 @@ local plugins = {
      -- ═════════════════════════════════════════════════════════════════════════
     -- 🏠 CATEGORIA: HOMEGROWN (PLUGINS DE 2KABHISHEK)
     -- ═════════════════════════════════════════════════════════════════════════
-    -- Plugins desarrollados específicamente por el autor de nvim2k
     {
         -- Selector genérico con soporte para múltiples proveedores
         '2kabhishek/pickme.nvim',
@@ -105,15 +104,35 @@ local plugins = {
         opts = {
             picker_provider = 'snacks',
         },
-        config = load_config('tools.pickme'),
     },
-    
+
     {
         -- Utilidades compartidas para plugins de 2kabhishek
         '2kabhishek/utils.nvim',
         cmd = 'UtilsClearCache',
     },
 
+    {
+        -- Manejo de co-autores en commits
+        '2kabhishek/co-author.nvim',
+        cmd = 'CoAuthor',
+    },
+
+    {
+        -- Selector de iconos y caracteres especiales
+        '2kabhishek/nerdy.nvim',
+        cmd = { 'Nerdy' },
+        keys = { '<leader>in', '<leader>iN' },
+        config = load_config('tools.nerdy'),
+    },
+
+    {
+        -- Terminal integrado mejorado
+        '2kabhishek/termim.nvim',
+        cmd = { 'Fterm', 'FTerm', 'Sterm', 'STerm', 'Vterm', 'VTerm' },
+    },
+
+    {
         -- Gestor de TODOs integrado
     {
         '2kabhishek/tdo.nvim',
@@ -121,10 +140,16 @@ local plugins = {
         keys = { '<leader>nn', '<leader>nt', '<leader>nx', '[t', ']t' },
         config = load_config('tools.tdo'),
     },
+
     {
-        -- Terminal integrado mejorado
-        '2kabhishek/termim.nvim',
-        cmd = { 'Fterm', 'FTerm', 'Sterm', 'STerm', 'Vterm', 'VTerm' },
+        -- Integración con GitHub para gestión de repositorios
+        '2kabhishek/octohub.nvim',
+        cmd = { 'Octohub' },
+        keys = { '<leader>goo' },
+        dependencies = {
+            '2kabhishek/utils.nvim',
+        },
+        config = load_config('tools.octohub'),
     },
 
     {
@@ -139,20 +164,19 @@ local plugins = {
         config = load_config('tools.exercism'),
     },
 
-    {
-        {
-            -- Integración con GitHub para gestión de repositorios
-            '2kabhishek/octohub.nvim',
-            cmd = { 'Octohub' },
-            keys = { '<leader>goo' },
-            dependencies = {
-                '2kabhishek/utils.nvim',
-            },
-            config = load_config('tools.octohub'),
-        },
+    -- Plugin de template comentado para desarrollo
+    -- {
+    --     '2kabhishek/template.nvim',
+    --     cmd = { 'Template' },
+    --     keys = { 'th' },
+    --     dependencies = { '2kabhishek/utils.nvim', },
+    --     config = load_config('tools.template'),
+    --     opts = {},
+    --     dir = '~/Projects/2KAbhishek/exercism.nvim/',
+    -- },
     
-    },
-    
+}
+
 }
 -- ──────────────────────────────────────────────────────────────────────────────
 -- 📤 EXPORTACIÓN DE CONFIGURACIÓN

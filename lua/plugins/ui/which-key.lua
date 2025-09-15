@@ -91,7 +91,12 @@ local normal_mappings = {
 
     { '<leader>f', group = ' Find' },
 
+    
+
+
     { '<leader>g', group = ' Git' },
+    { '<leader>gC', ':CoAuthor<cr>', desc = 'Co-Authors' },
+
 
     { '<leader>i', group = ' Insert' },
 

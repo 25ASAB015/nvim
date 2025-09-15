@@ -450,6 +450,13 @@ class KeybindingExtractor:
         except Exception as e:
             print(f"Aviso: no se pudieron extraer defaults de PickMe en {file_path}: {e}")
 
+        # Extensión: defaults para Nerdy (si add_default_keybindings = true)
+        try:
+            nerdy_kbs = self.extract_nerdy_default_keybindings(file_path, content)
+            keybindings.extend(nerdy_kbs)
+        except Exception as e:
+            print(f"Aviso: no se pudieron extraer defaults de Nerdy en {file_path}: {e}")
+
         return keybindings
 
     # =====================
@@ -950,6 +957,47 @@ class KeybindingExtractor:
                     line_number=line_number,
                 )
             )
+
+        return kbs
+
+    def extract_nerdy_default_keybindings(self, file_path: str, content: str) -> List['Keybinding']:
+        """Detecta `add_default_keybindings = true` en nerdy.lua y agrega atajos por defecto.
+
+        Por convención de 2kabhishek/nerdy.nvim, cuando está activo:
+        - <leader>in -> :Nerdy list<CR>
+        - <leader>iN -> :Nerdy recents<CR>
+        """
+        # Verificar bandera
+        if re.search(r"add_default_keybindings\s*=\s*true", content) is None:
+            return []
+
+        # Asegurar que el archivo es el de nerdy o contiene referencia clara
+        base = os.path.basename(file_path)
+        looks_like_nerdy = base.endswith('nerdy.lua') or 'require(' in content and 'nerdy' in content
+        if not looks_like_nerdy:
+            return []
+
+        # Construir keybindings por defecto
+        kbs: List[Keybinding] = []
+        flag_line = content[: re.search(r"add_default_keybindings\s*=\s*true", content).start()].count('\n') + 1
+        defaults = [
+            ("<leader>in", ":Nerdy list<CR>", "Nerdy: List Icons"),
+            ("<leader>iN", ":Nerdy recents<CR>", "Nerdy: Recent Icons"),
+        ]
+        line_offset = 0
+        for key, action_cmd, desc in defaults:
+            kbs.append(
+                Keybinding(
+                    file_path=file_path,
+                    modes=["Normal"],
+                    key=key,
+                    action=action_cmd,
+                    description=desc,
+                    context="Nerdy defaults (auto)",
+                    line_number=flag_line + line_offset,
+                )
+            )
+            line_offset += 1
 
         return kbs
 
