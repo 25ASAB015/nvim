@@ -91,12 +91,8 @@ local normal_mappings = {
 
     { '<leader>f', group = ' Find' },
 
-    
-
-
     { '<leader>g', group = ' Git' },
     { '<leader>gC', ':CoAuthor<cr>', desc = 'Co-Authors' },
-
 
     { '<leader>i', group = ' Insert' },
 
@@ -180,13 +176,12 @@ local visual_mappings = {
     { '<leader>a', group = ' AI' },
 
     { '<leader>c', group = ' Code' },
- 
+
     { '<leader>g', group = ' Git' },
- 
+
     { '<leader>j', group = ' Jump' },
- 
+
     { '<leader>l', group = ' LSP' },
- 
 
     { '<leader>y', group = ' Yank' },
     { '<leader>yg', ':lua require"gitlinker".get_buf_range_url("v")<cr>', desc = 'Copy Git URL' },
@@ -194,7 +189,6 @@ local visual_mappings = {
 
 local no_leader_mappings = {
     mode = 'n',
-
 }
 
 which_key.setup(setup)

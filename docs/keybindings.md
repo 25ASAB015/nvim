@@ -202,6 +202,18 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 | Keybinding                         | Action         |
 | ---------------------------------- | -------------- |
+| <kbd>Leader</kbd> <kbd> r a </kbd> | Replace All |
+| <kbd>Leader</kbd> <kbd> r b </kbd> | Replace Buffer |
+| <kbd>Leader</kbd> <kbd> r d </kbd> | Go To Definition |
+| <kbd>Leader</kbd> <kbd> r h </kbd> | List Definition Head |
+| <kbd>Leader</kbd> <kbd> r j </kbd> | Next Usage |
+| <kbd>Leader</kbd> <kbd> r k </kbd> | Previous Usage |
+| <kbd>Leader</kbd> <kbd> r l </kbd> | List Definition |
+| <kbd>Leader</kbd> <kbd> r n </kbd> | Swap Next |
+| <kbd>Leader</kbd> <kbd> r p </kbd> | Swap Previous |
+| <kbd>Leader</kbd> <kbd> r r </kbd> | Smart Rename |
+| <kbd>Leader</kbd> <kbd> r s </kbd> | Replace Word Buffer |
+| <kbd>Leader</kbd> <kbd> r w </kbd> | Replace Word Everywhere |
 
 ### s -  Split
 
