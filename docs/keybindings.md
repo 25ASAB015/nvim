@@ -454,6 +454,45 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 ---
 
+### [lua/plugins/tools/spectre.lua](lua/plugins/tools/spectre.lua)
+
+#### Búsqueda
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd>H</kbd>                          | toggle search hidden                                | [N]             | Snacks keys                         |
+
+#### Edición
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd>c</kbd>                          | input replace vim command                           | [N]             | Snacks keys                         |
+| <kbd>R</kbd>                          | replace all                                         | [N]             | Snacks keys                         |
+
+#### UI/Tema
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd>I</kbd>                          | toggle ignore case                                  | [N]             | Snacks keys                         |
+| <kbd>Q</kbd>                          | send all item to quickfix                           | [N]             | Snacks keys                         |
+| <kbd>t</kbd>                          | toggle current item                                 | [N]             | Snacks keys                         |
+
+#### Otros
+
+| Combinación de teclas                 | Acción (Español)                                    | Modo(s)         | Contexto/Notas                   |
+| ------------------------------------- | --------------------------------------------------- | --------------- | ----------------------------------- |
+| <kbd><cr></kbd>                       | goto current file                                   | [N]             | Snacks keys                         |
+| <kbd>ag</kbd>                         | ignore case                                         | [N]             | Snacks keys                         |
+| <kbd>hidden</kbd>                     | hidden file                                         | [N]             | Snacks keys                         |
+| <kbd>ignore-case</kbd>                | ignore case                                         | [N]             | Snacks keys                         |
+| <kbd>m</kbd>                          | change result view mode                             | [N]             | Snacks keys                         |
+| <kbd>o</kbd>                          | show option                                         | [N]             | Snacks keys                         |
+| <kbd>rg</kbd>                         | ignore case                                         | [N]             | Snacks keys                         |
+| <kbd>sed</kbd>                        | Motor de reemplazo (externo). Por defecto se usa 'sed' | [N]             | Snacks keys                         |
+
+
+---
+
 ### [lua/plugins/tools/tdo.lua](lua/plugins/tools/tdo.lua)
 
 #### Navegación
@@ -582,6 +621,10 @@ Aquí están todos los atajos de teclado definidos para mi configuración de Neo
 
 ## Conflictos y solapamientos
 
+- Tecla <kbd><cr></kbd>:
+  - [N]: 
+    - goto current file — [lua/plugins/tools/spectre.lua:L37](lua/plugins/tools/spectre.lua#L37)
+    - Execute buffer — [lua/plugins/ui/snacks.lua:L324](lua/plugins/ui/snacks.lua#L324)
 - Tecla <kbd><leader>ot</kbd>:
   - [N]: 
     - Treesitter Find — [lua/plugins/tools/pickme.lua:L246](lua/plugins/tools/pickme.lua#L246)
