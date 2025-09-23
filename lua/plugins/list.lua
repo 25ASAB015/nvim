@@ -93,7 +93,12 @@ local plugins = {
     -- 🛠️ CATEGORIA: TOOLS (HERRAMIENTAS GENERALES)
     -- ═════════════════════════════════════════════════════════════════════════
     -- Utilidades y herramientas para productividad
-
+    {
+        -- Herramienta avanzada para búsqueda y reemplazo en múltiples archivos
+        'windwp/nvim-spectre',
+        config = load_config('tools.spectre'), -- Carga la configuración personalizada para Spectre
+        cmd = 'Spectre', -- Comando para abrir la interfaz de Spectre
+    },
     {
         -- Generación de enlaces de Git para compartir código
         'ruifm/gitlinker.nvim',

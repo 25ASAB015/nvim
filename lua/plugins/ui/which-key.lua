@@ -91,12 +91,8 @@ local normal_mappings = {
 
     { '<leader>f', group = ' Find' },
 
-    
-
-
     { '<leader>g', group = ' Git' },
     { '<leader>gC', ':CoAuthor<cr>', desc = 'Co-Authors' },
-
 
     { '<leader>i', group = ' Insert' },
 
@@ -127,6 +123,18 @@ local normal_mappings = {
     { '<leader>qw', ':wq<cr>', desc = 'Write and Quit' },
 
     { '<leader>r', group = ' Refactor' },
+    { '<leader>ra', ":lua require('spectre').open()<cr>", desc = 'Replace All' },
+    { '<leader>rb', ":lua require('spectre').open_file_search()<cr>", desc = 'Replace Buffer' },
+    { '<leader>rd', '', desc = 'Go To Definition' }, -- treesitter navigation
+    { '<leader>rh', '', desc = 'List Definition Head' },
+    { '<leader>rj', '', desc = 'Next Usage' },
+    { '<leader>rk', '', desc = 'Previous Usage' },
+    { '<leader>rl', '', desc = 'List Definition' },
+    { '<leader>rn', '', desc = 'Swap Next' },
+    { '<leader>rp', '', desc = 'Swap Previous' },
+    { '<leader>rr', '', desc = 'Smart Rename' },
+    { '<leader>rs', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', desc = 'Replace Word Buffer' },
+    { '<leader>rw', ":lua require('spectre').open_visual({select_word=true})<cr>", desc = 'Replace Word Everywhere' },
 
     { '<leader>s', group = ' Split' },
 
@@ -168,13 +176,12 @@ local visual_mappings = {
     { '<leader>a', group = ' AI' },
 
     { '<leader>c', group = ' Code' },
- 
+
     { '<leader>g', group = ' Git' },
- 
+
     { '<leader>j', group = ' Jump' },
- 
+
     { '<leader>l', group = ' LSP' },
- 
 
     { '<leader>y', group = ' Yank' },
     { '<leader>yg', ':lua require"gitlinker".get_buf_range_url("v")<cr>', desc = 'Copy Git URL' },
@@ -182,7 +189,6 @@ local visual_mappings = {
 
 local no_leader_mappings = {
     mode = 'n',
-
 }
 
 which_key.setup(setup)
